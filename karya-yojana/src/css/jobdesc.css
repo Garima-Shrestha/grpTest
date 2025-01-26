@@ -1,0 +1,147 @@
+/* Container for the Job Description Page */
+.job-desc-container {
+   width:auto;
+    /* margin: 0 auto; */
+    padding: 30px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+  
+  /* Header Section */
+  .job-header {
+    display: flex;
+    align-items: center;
+    margin-left: 30%;
+    gap: 40px;
+    /* border-bottom: 2px solid #f0f0f0; */
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .company-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
+  
+  .job-header-details h2 {
+    margin: 0;
+    font-size: 35px;
+    color: #4a9e73;
+  }
+  
+  .job-header-details h4 {
+    margin: 5px 0 0;
+    font-size: 32px;
+    color: #666;
+  }
+  
+  /* Job Details Section */
+  .job-details {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    margin-right: 50%;
+    gap: 20px;
+    text-align: justify;
+  }
+  
+  .job-section {
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .job-section:last-child {
+    border-bottom: none;
+  }
+  .job-section ul li{
+    margin-bottom: 10px;
+  }
+  .job-section h3 {
+    font-size: 24px;
+    margin: 0 0 10px;
+    color: #444;
+    font-weight: bold;
+  }
+  
+  .job-section p {
+    margin: 0;
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+  }
+  .job-section-head h3 {
+    font-size: 18px;
+    margin: 0 0 10px;
+    color: #444;
+    font-weight: bold;
+  }
+  
+  .job-section-head p {
+    margin: 0;
+    font-size: 15px;
+    color: #555;
+    line-height: 1.6;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .job-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .company-logo {
+      width: 100px;
+      height: 100px;
+    }
+  
+    .job-header-details h2 {
+      font-size: 1.5rem;
+    }
+  
+    .job-header-details h4 {
+      font-size: 1rem;
+    }
+  
+    .job-section h3 {
+      font-size: 1.2rem;
+    }
+  
+    .job-section p {
+      font-size: 0.95rem;
+    }
+  }
+  /* Apply Button Styling */
+.apply-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .apply-button {
+    background-color: #4a9e73;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .apply-button:hover {
+    background-color: #31674b;
+    transform: scale(1.05);
+  }
+  
+  .apply-button:active {
+    background-color: #4a9e73;
+  }
+  

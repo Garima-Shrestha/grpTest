@@ -1,0 +1,79 @@
+html,body{
+    margin: 0;
+}
+.header-main{
+    padding: 0px;
+    display:flex;
+    height: 20%;
+    align-items: center;
+    background-color: rgb(210, 209, 209);
+    width: 100%;
+}
+.header-main .main-logo{
+    margin-right:18%;
+    margin-left: 5%;
+}
+.header-main .main-logo img{
+    width: 100px; /* Smaller logo */
+    height: 100px;
+    margin-top: 0px;
+}
+.header-main .main-menu ul{
+    display: flex;
+    list-style: none;
+    max-width: auto;
+}
+.header-main .main-menu ul li{
+    margin-right: 70px;
+}
+.header-main .main-menu ul li a{
+  text-decoration: none;
+  font-size: 18px;
+  color: black;
+}
+/* Dropdown styling */
+.profile {
+    position: relative;
+    cursor: pointer;
+    margin-left: 15%;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    top: 50px; /* Adjust to place below the "Profile" span */
+    right: 0; /* Align to the right */
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 150px; /* Adjust as needed */
+  }
+  
+  .dropdown-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .dropdown-menu ul li {
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .dropdown-menu ul li:hover {
+    background-color: #f0f0f0;
+  }
+  .main-menu ul li.active {
+    border-bottom: 2px solid #418a64; 
+    font-weight: normal;
+  }
+  .main-menu ul li:first-child {
+    border-top: none; /* Ensure no border conflict with the first item */
+  }
+  
+  /* .main-menu ul li:last-child {
+    border-top: none; /* Ensure no extra bottom border conflict with the last item */
+
+  

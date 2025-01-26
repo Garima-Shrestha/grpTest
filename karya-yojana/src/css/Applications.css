@@ -1,0 +1,56 @@
+.vacancies-container {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  
+  .vacancies-container h3 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .table-wrapper {
+    margin: 0 auto;
+    width: 90%;
+    overflow-x: auto;
+  }
+  
+  .search-input {
+    margin-bottom: 10px;
+    width: 98.5%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  table th, table td {
+    text-align: left;
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  
+  table th {
+    background-color: #f4f4f4;
+  }
+  
+  table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .view-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .disclaimer {
+    text-align: center;
+    font-size: 0.9em;
+    color: #666;
+  }
+  

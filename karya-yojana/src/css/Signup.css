@@ -1,0 +1,212 @@
+.signup {
+    height: auto; /* Ensure the body takes the full height of the viewport */
+    margin: 0; /* Remove default margin */
+    background: linear-gradient(132deg, #f9dfec, #a1d6d8, #ffeddc);
+    background-size: 300% 300%; /* Increase the size of the background for animation */
+    animation: Gradient 15s ease-in-out infinite; /* Apply the animation */
+}
+@keyframes Gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+.head.head-small {
+    height: 70px; /* Smaller height */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
+}
+
+.head-small .logo img {
+    width: 180px; /* Smaller logo */
+    height: 180px;
+    margin-top: 5px;
+}
+
+/* Title styles to align properly in smaller header */
+.head-small .title ul li {
+    font-size: 20px; /* Reduce font size */
+    margin: -50px 20px !important;
+}
+.head-small .title ul li a {
+    color: #2b0352;
+}
+.head-small .title ul li a:hover {
+    color: #1b814c;
+}
+.logo{
+    padding: 10px 20px;
+}
+.title{
+    display: flex;
+}
+.title ul li {
+    margin: 0 60px;
+    font-size: 25px;
+}
+
+.title ul{
+    display: flex;
+    list-style: none;
+    margin-top:100px;
+    margin-right: 5px;
+}
+
+.title ul li a{
+    text-decoration: none;
+    color: black;
+}
+/* Styling for the navigation links */
+.head-small .title ul li a {
+    text-decoration: none;
+    color: black;
+    transition: all 0.3s ease; /* Smooth transition */
+}
+.head-small {
+    display: flex;
+    justify-content: space-between;
+    background-color: transparent; /* Initially transparent */
+    height: 100px;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+    margin-bottom: -100px;
+}
+.head-small .title ul li a:hover {
+    color: #4a9e73; /* Green text color on hover */
+}
+.signup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+
+.Box {
+    margin-top: 30px;
+    background: #fff;
+    padding: 55px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.Form-Box {
+    max-width: 490px;
+    min-width: 400px;
+    min-width: 400px;
+    min-height: 500px;
+    width: 150%;
+    margin-top: 20px;
+}
+
+.form h1 {
+    text-align: center;
+    margin-bottom: 50px;
+    color:#4a9e73;
+    font-size: 32px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group input {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 3px;
+}
+.input-group select{
+    width: 105%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 3px;
+}
+.input-group label{
+    font-size: 18px;
+}
+
+.input-group button.show-password-btn {
+    background: none;
+    border: none;
+    color:#4a9e73;
+    cursor: pointer;
+    font-size: 14px;
+    width: 130px;
+    margin-top: 5px;
+}
+
+.signup-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #4a9e73;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 25px;
+}
+
+.signup-btn:hover {
+    background: linear-gradient(132deg, #4fb3b5, #c5fd9a);
+    color: #313131;
+    font-weight: bold;
+}
+input:focus{
+    background-color: #d1f1f3;
+}
+select:focus{
+    background-color: #d1f1f3;
+}
+.login-link {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.login-link a {
+    color: #4fb3b5;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+.error-message{
+    color: red;
+}
+
+.input-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px; /* Space between input fields */
+    justify-content: space-between;
+}
+
+.input-group {
+    flex: 1;
+    min-width: 200px; /* Ensures inputs have a minimum width */
+}
+
+.input-group button.show-password-btn {
+    margin-top: 5px; /* Remove margin to align with inputs */
+    margin-left: 120px;
+}
+
+
+@media (max-width: 768px) {
+    .input-row {
+        flex-direction: column; /* Stack inputs vertically on smaller screens */
+    }
+}

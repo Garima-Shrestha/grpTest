@@ -1,0 +1,77 @@
+/* Main FAQ Section Styling */
+.faq-section {
+    max-width: 100%;
+    padding: 20px;
+    padding-bottom: 40px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 80px;
+  }
+  
+  /* FAQ Section Title */
+  .faq-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #181818;
+    background-color: #4a9e73;
+  }
+  
+  /* FAQ Items */
+  .faq-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  /* Individual FAQ Item */
+  .faq-item {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .faq-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* FAQ Question */
+  .faq-question {
+    background-color: #fff;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .faq-question:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .faq-question.active {
+    background-color: #e6e6e6;
+  }
+  
+  /* FAQ Answer */
+  .faq-answer {
+    background-color: #fff;
+    padding: 15px;
+    font-size: 16px;
+    color: #555;
+    border-top: 1px solid #ddd;
+  }
+  
+  /* FAQ Toggle Button (+/-) */
+  .faq-toggle {
+    font-size: 24px;
+    font-weight: bold;
+    color: #666;
+  }
+  
