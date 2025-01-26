@@ -23,7 +23,6 @@ app.use(bodyParser.json());
 
 // Routes
 app.use('/api/auth', AuthenticationRoute); 
-console.log('Routes for /api/auth have been registered');
 app.use('/api/employer/auth', EmployerAuthRoute);
 app.use('/api/protected', ApplicantHomeRoute);
 app.use('/api/protected/resume', ApplicantResume)
