@@ -30,7 +30,7 @@ const ManageAccount = () => {
             "Content-Type": "application/json",
             'Authorization': `Bearer ${token}`,
           },
-          body: JSON.stringify({ reason, foundJob, feedback }),
+          // body: JSON.stringify({ reason, foundJob, feedback }),
         });
 
         if (response.ok) {
