@@ -6,22 +6,46 @@ const ManageAccount = () => {
   const [reason, setReason] = useState("");
   const [foundJob, setFoundJob] = useState("");
   const [feedback, setFeedback] = useState("");
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete your account? This action cannot be undone."
     );
 
     if (confirmDelete) {
-      console.log("Reason:", reason);
-      console.log("Found Dream Job:", foundJob);
-      console.log("Feedback:", feedback);
+      // Get the token
+      const token = localStorage.getItem("token");
 
-      // Redirect to login page
-      navigate("/login");
+      if (!token) {
+        setErrors({ general: "No token found. Please log in again." });
+        return;
+      }
+
+      try {
+        const response = await fetch("http://localhost:3000/api/auth/appManageAcc", {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            'Authorization': `Bearer ${token}`,
+          },
+          body: JSON.stringify({ reason, foundJob, feedback }),
+        });
+
+        if (response.ok) {
+          console.log("Your account has been deleted successfully.");
+          navigate("/login");
+        } else {
+          const data = await response.text();  // Log raw text for debugging
+          setErrors({ general: `Failed to delete account: ${data}` });
+        }        
+      } catch (error) {
+        console.error("Error deleting account:", error);
+        setErrors({ general: "An error occurred while deleting your account." });
+      }
     } else {
-      alert("Account deletion canceled.");
+      setErrors({ general: "Account deletion canceled." });
     }
   };
 
@@ -90,6 +114,8 @@ const ManageAccount = () => {
               placeholder="Share your thoughts..."
             />
           </div>
+
+          {errors.general && <span className="error-message-register">{errors.general}</span>}<br></br>
 
           <button
             type="submit"
