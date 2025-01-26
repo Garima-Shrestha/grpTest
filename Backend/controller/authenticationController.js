@@ -1,4 +1,4 @@
-import { createUser, findEmail } from "../model/autheticationModel.js";
+import { createUser, findEmail, deleteAccount, logAccountDeletion } from "../model/autheticationModel.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -85,3 +85,35 @@ export const login = async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 }
+
+
+
+//For Managing Account i.e. deleting account
+export const manageAccount = async (req, res) => {
+  const userId = req.user.id;  // Extract user ID from token
+  const { reason, foundJob, feedback } = req.body;
+  console.log('User ID from token:', userId);
+
+  try {
+    const newResult = await logAccountDeletion(userId, reason, foundJob === "Yes", feedback);
+
+    console.log("Log Result:", newResult);
+
+    if (!newResult) {
+      return res.status(500).json({ error: "Failed to log account deletion details" });
+    }
+
+    console.log("Deleting user account...");
+    const deletedUser = await deleteAccount(userId);
+
+    if (!deletedUser) {
+      console.error("User not found");
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.status(200).json({ message: "Account deleted successfully" });
+  } catch (error) {
+    console.error("Error managing account:", error);
+    res.status(500).json({ error: "Server error", details: error.message });
+  }
+};
