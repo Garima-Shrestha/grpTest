@@ -62,7 +62,7 @@ function Signup() {
                     username,
                     email,
                     password,
-                    contact,
+                    contactNumber: contact,  
                     gender,
                 }),                
             });
