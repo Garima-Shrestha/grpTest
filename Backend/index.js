@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
-import {createTable, createTableEmployer, createTableResume, createTableAccountManage} from './config/db.js';
+import {createTable, createTableEmployer, createTableResume} from './config/db.js';
 import AuthenticationRoute from './routes/authenticationRoutes.js'
 import EmployerAuthRoute from './routes/employerAuthRoute.js';
 import ApplicantHomeRoute from './routes/applicantHomeRoutes.js'
@@ -15,7 +15,6 @@ const app = express();
 createTable(); 
 createTableEmployer();
 createTableResume();
-createTableAccountManage();
 
 //Middlewares
 app.use(cors());

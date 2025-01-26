@@ -26,20 +26,6 @@ export const deleteAccount = async (userId) => {              //Deletes a user w
     const result = await pool.query(query, [userId]);
     return result.rows[0];
   };
-
-  export const logAccountDeletion = async (userId, reason, foundJob, feedback) => {          //Records the user's account deletion details into the account_management table.
-       try {
-      const query = `
-        INSERT INTO account_management (user_id, reason, found_job, feedback) 
-        VALUES ($1, $2, $3, $4) RETURNING *`;
-      const values = [userId, reason, foundJob, feedback];
-      const result = await pool.query(query, values);  
-      return result.rows[0];
-    } catch (error) {
-      console.error("Error logging account deletion:", error);
-      throw error;
-    }
-  };
   
   
   

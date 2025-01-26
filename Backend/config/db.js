@@ -86,26 +86,4 @@ export const createTable = async () => {
   };
 
 
-
-  export const createTableAccountManage = async () => {
-    try {
-      const query = `
-        CREATE TABLE IF NOT EXISTS account_management (
-          id SERIAL PRIMARY KEY,
-          user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-          reason VARCHAR(255),
-          found_job BOOLEAN,
-          feedback TEXT,
-          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        );
-      `;
-      await pool.query(query);
-      console.log("Account Management Table Created");
-    } catch (err) {
-      console.error("Error creating table", err);
-    }
-  };
-  
-
-
 export {pool};
