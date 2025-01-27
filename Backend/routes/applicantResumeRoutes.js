@@ -1,15 +1,30 @@
 import express from 'express';
-import { addProfile, upgradeProfile, fetchProfile } from '../controller/applicantResumeController.js';
+import { saveResume, fetchResume } from '../controller/applicantResumeController.js';
+import multer from 'multer';
 import authenticateToken from '../middleware/authenticationMiddleware.js';
-
 const router = express.Router();
 
-// Route to get/retrive the user profile
-router.get('/profileApplicant', authenticateToken, fetchProfile); 
-// Route to add a new applicant profile
-router.post('/profileApplicant', authenticateToken, addProfile); 
+// Configure storage for multer
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  }
+});
 
-// Route to update an existing applicant profile
-router.put('/profileApplicant/:id', authenticateToken, upgradeProfile); 
+const upload = multer({ storage: storage });
+
+// Route to create or update applicant resume with file upload
+router.post('/save-resume', upload.single('photo'), saveResume);
+
+// Route to get applicant resume
+router.get('/fetch-resume/:userId', fetchResume);
+
+// Route to get user ID
+router.get('/get-user-id', authenticateToken, (req, res) => {
+    res.json({ userId: req.user.id }); // Assuming req.user.id contains the authenticated user's ID
+});
 
 export default router;

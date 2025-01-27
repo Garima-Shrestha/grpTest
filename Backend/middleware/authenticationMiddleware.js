@@ -3,12 +3,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
 
-
 const authenticateToken = (req, res, next) => {
   const token = req.headers['authorization']?.split(' ')[1]; 
   if (!token) {
     return res.status(401).json({ error: 'Access denied. No token provided.' });
-    
   }
 
   try {

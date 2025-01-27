@@ -1,73 +1,42 @@
-import { getProfile, createProfile, updateProfile } from '../model/applicantResumeModel.js';
-import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
+import resumeModel from '../model/applicantResumeModel.js';
 
-dotenv.config();
-const jwtSecret = process.env.JWT_SECRET;
+const saveResume = async (req, res) => {
+  console.log('Incoming request data:', req.body); // Log incoming request data
+  const { upload } = req.app.locals;
+  upload.single('photo')(req, res, async (err) => {
+    if (err) return res.status(400).json({ message: 'File upload error.' });
 
-// Middleware to verify the JWT token and extract the user ID
-const verifyTokenAndGetUserId = (req) => {
-  const token = req.headers.authorization?.split(' ')[1];
-  if (!token) {
-    throw new Error('No token provided');
-  }
-  const decoded = jwt.verify(token, jwtSecret);
-  console.log('Decoded JWT:', decoded); // Add this log to check if the user ID is correct
-  return decoded.id; // User ID from JWT
-};
+    const { userId, name, email, phone, education, experience } = req.body;
+    const photoUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
-// Fetch the applicant resume if applicant has logged in
-export const fetchProfile = async (req, res) => {
-  try {
-    const userId = verifyTokenAndGetUserId(req);
-    const profile = await getProfile(userId);
-
-    if (!profile || profile.length === 0) {
-      return res.status(404).json({ message: 'Profile not found' });
+    try {
+      await resumeModel.saveOrUpdateResume(req.app.locals.pool, {
+        userId,
+        name,
+        email,
+        phone,
+        education,
+        experience,
+        photoUrl,
+      });
+      res.status(200).json({ message: 'Resume saved successfully.' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error saving resume.' });
     }
-    res.status(200).json({ profile });
-  } catch (error) {
-    console.error('Error fetching applicant resume:', error);
-    res.status(500).json({ error: error.message || 'Server error' });
-  }
+  });
 };
 
-// Add Applicant Info to the Resume Builder/Applicant Profile
-export const addProfile = async (req, res) => {
+const fetchResume = async (req, res) => {
+  const { userId } = req.params;
   try {
-    const userId = verifyTokenAndGetUserId(req);
-    const { firstName, lastName, email, contact, address, gender, education, bio, experience, certifications, skills, reference, profilePicture } = req.body;
-
-    const newProfile = await createProfile(userId, firstName, lastName, email, contact, address, gender, education, bio, experience, certifications, skills, reference, profilePicture);
-
-    if (!newProfile) {
-      return res.status(500).json({ error: 'Failed to save Applicant Resume' });
-    }
-
-    res.status(201).json({ message: 'Applicant Resume saved successfully', newProfile });
+    const resume = await resumeModel.fetchResumeByUserId(req.app.locals.pool, userId);
+    if (resume) res.json(resume);
+    else res.status(404).json({ message: 'Resume not found.' });
   } catch (error) {
-    console.error('Error saving applicant resume:', error);
-    res.status(500).json({ error: error.message || 'Server error' });
+    console.error(error);
+    res.status(500).json({ message: 'Error fetching resume.' });
   }
 };
 
-// Update a Applicant Resume/Applicant Profile
-export const upgradeProfile = async (req, res) => {
-  try {
-    const userId = verifyTokenAndGetUserId(req);
-    const resumeId = req.params.id; 
-    const { firstName, lastName, email, contact, address, gender, education, bio, experience, certifications, skills, reference, profilePicture } = req.body;
-
-    const newUpgrade = await updateProfile(resumeId, userId, firstName, lastName, email, contact, address, gender, education, bio, experience, certifications, skills, reference, profilePicture);
-    console.log('Resume ID:', resumeId); // Debugging log
-
-    if (!newUpgrade) {
-      return res.status(404).json({ error: 'Applicant Resume not found or unauthorized' });
-    }
-
-    res.status(200).json({ message: 'Applicant Resume updated successfully', newUpgrade });
-  } catch (error) {
-    console.error('Error updating applicant resume:', error);
-    res.status(500).json({ error: error.message || 'Server error' });
-  }
-};
+export { saveResume, fetchResume };
