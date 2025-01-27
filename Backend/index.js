@@ -39,7 +39,7 @@ app.locals.upload = multer({ storage });
 
 // Routes
 app.use('/api/auth', AuthenticationRoute); 
-app.use('/api/employer/auth', EmployerAuthRoute);
+app.use('/api/employer', EmployerAuthRoute);
 app.use('/api/protected', ApplicantHomeRoute);
 app.use('/api/protected/applicant/resume', ApplicantResumeRoute);
 

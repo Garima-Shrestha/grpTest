@@ -35,6 +35,7 @@ const ManageAccount = () => {
 
         if (response.ok) {
           console.log("Your account has been deleted successfully.");
+          localStorage.removeItem("token"); 
           navigate("/login");
         } else {
           const data = await response.text();  // Log raw text for debugging
