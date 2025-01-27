@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use('/api/auth', AuthenticationRoute); 
-app.use('/api/employer/auth', EmployerAuthRoute);
+app.use('/api/employer', EmployerAuthRoute);
 app.use('/api/protected', ApplicantHomeRoute);
 app.use('/api/protected/resume', ApplicantResume)
 

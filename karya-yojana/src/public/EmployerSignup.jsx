@@ -52,7 +52,7 @@ function EmpSignup(){
 
         setIsLoading(true);
         try{
-        const response = await fetch('http://localhost:3000/api/auth/employer/employerRegister', {
+        const response = await fetch('http://localhost:3000/api/employer/employerRegister', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

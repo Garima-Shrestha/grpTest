@@ -17,7 +17,7 @@ const EmpLogin=({setToken})=> {
         e.preventDefault();
         setIsLoading(true);
         try{
-            const response = await fetch('http://localhost:3000/api/auth/employer/employerLogin',{
+            const response = await fetch('http://localhost:3000/api/employer/employerLogin',{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
