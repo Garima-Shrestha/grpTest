@@ -1,6 +1,12 @@
-import { getProfile, createProfile, updateProfile } from '../model/applicantResumeModel.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import {
+  addResume,
+  getResumesByUserId,
+  updateResume,
+  deleteResume,
+  getResumeById,
+} from '../model/applicantResumeModel.js';
 
 dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
@@ -11,63 +17,84 @@ const verifyTokenAndGetUserId = (req) => {
   if (!token) {
     throw new Error('No token provided');
   }
-  const decoded = jwt.verify(token, jwtSecret);
-  console.log('Decoded JWT:', decoded); // Add this log to check if the user ID is correct
-  return decoded.id; // User ID from JWT
+  try {
+    const decoded = jwt.verify(token, jwtSecret);
+    return decoded.id; // User ID from JWT
+  } catch (error) {
+    throw new Error('Invalid token');
+  }
 };
 
-// Fetch the applicant resume if applicant has logged in
-export const fetchProfile = async (req, res) => {
+// Add a new resume
+export const addUserResume = async (req, res) => {
   try {
     const userId = verifyTokenAndGetUserId(req);
-    const profile = await getProfile(userId);
 
-    if (!profile || profile.length === 0) {
-      return res.status(404).json({ message: 'Profile not found' });
+    // Check if the user already has a resume
+    const existingResumes = await getResumesByUserId(userId);
+    if (existingResumes.length > 0) {
+      return res.status(400).json({ error: 'User already has a resume. Please update the existing one.' });
     }
-    res.status(200).json({ profile });
+
+    // Proceed to add the new resume
+    const { fullName, email, contact, address, education, experience, skills, certifications } = req.body;
+    const newResume = await addResume(userId, fullName, email, contact, address, education, experience, skills, certifications);
+
+    res.status(201).json({ message: 'Resume saved successfully', newResume });
   } catch (error) {
-    console.error('Error fetching applicant resume:', error);
+    console.error('Error saving resume:', error);
     res.status(500).json({ error: error.message || 'Server error' });
   }
 };
 
-// Add Applicant Info to the Resume Builder/Applicant Profile
-export const addProfile = async (req, res) => {
+
+// Get resumes for the logged-in user
+export const getUserResumes = async (req, res) => {
   try {
     const userId = verifyTokenAndGetUserId(req);
-    const { firstName, lastName, email, contact, address, gender, education, bio, experience, certifications, skills, reference, profilePicture } = req.body;
 
-    const newProfile = await createProfile(userId, firstName, lastName, email, contact, address, gender, education, bio, experience, certifications, skills, reference, profilePicture);
+    const resumes = await getResumesByUserId(userId);
 
-    if (!newProfile) {
-      return res.status(500).json({ error: 'Failed to save Applicant Resume' });
+    if (!resumes || resumes.length === 0) {
+      return res.status(404).json({ message: 'No resumes found' });
     }
 
-    res.status(201).json({ message: 'Applicant Resume saved successfully', newProfile });
+    res.status(200).json({ resumes });
   } catch (error) {
-    console.error('Error saving applicant resume:', error);
+    console.error('Error fetching resumes:', error);
     res.status(500).json({ error: error.message || 'Server error' });
   }
 };
 
-// Update a Applicant Resume/Applicant Profile
-export const upgradeProfile = async (req, res) => {
+// Update a resume
+// Update a resume
+export const updateUserResume = async (req, res) => {
   try {
     const userId = verifyTokenAndGetUserId(req);
-    const resumeId = req.params.id; 
-    const { firstName, lastName, email, contact, address, gender, education, bio, experience, certifications, skills, reference, profilePicture } = req.body;
+    const resumeId = req.params.id; // Correctly retrieve resume ID from URL params
+    const { fullName, email, contact, address, education, experience, skills, certifications } = req.body;
 
-    const newUpgrade = await updateProfile(resumeId, userId, firstName, lastName, email, contact, address, gender, education, bio, experience, certifications, skills, reference, profilePicture);
-    console.log('Resume ID:', resumeId); // Debugging log
+    // Log user ID and resume ID for debugging
+    console.log(`User ID: ${userId}, Resume ID: ${resumeId}`);
 
-    if (!newUpgrade) {
-      return res.status(404).json({ error: 'Applicant Resume not found or unauthorized' });
+    // Validate required fields
+    if (!resumeId || !fullName || !email || !contact) {
+      return res.status(400).json({ error: 'Resume ID, Full Name, Email, and Contact are required' });
+    }
+    console.log('Request body:', req.body);
+console.log('Resume ID:', resumeId);
+console.log('User ID:', userId);
+
+    const updatedResume = await updateResume(resumeId, userId, fullName, email, contact, address, education, experience, skills, certifications);
+
+    if (!updatedResume) {
+      return res.status(404).json({ error: 'Resume not found or unauthorized' });
     }
 
-    res.status(200).json({ message: 'Applicant Resume updated successfully', newUpgrade });
+    res.status(200).json({ message: 'Resume updated successfully', updatedResume });
   } catch (error) {
-    console.error('Error updating applicant resume:', error);
+    console.error('Error updating resume:', error);
     res.status(500).json({ error: error.message || 'Server error' });
   }
 };
+

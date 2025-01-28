@@ -25,6 +25,6 @@ app.use(bodyParser.json());
 app.use('/api/auth', AuthenticationRoute); 
 app.use('/api/employer', EmployerAuthRoute);
 app.use('/api/protected', ApplicantHomeRoute);
-app.use('/api/protected/resume', ApplicantResume)
+app.use('/api/resumes', ApplicantResume)
 
 export default app;
