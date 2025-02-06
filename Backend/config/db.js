@@ -95,7 +95,7 @@ export const createTableJob = async () => {
           position VARCHAR(50) NOT NULL,
           description TEXT NOT NULL,
           qualifications TEXT NOT NULL,
-          transaction INT REFERENCES job_posting_transactions(transaction_id) ON DELETE CASCADE, 
+          transaction varchar(20) NOT NULL,
           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );`;
       await pool.query(query);
@@ -104,26 +104,6 @@ export const createTableJob = async () => {
       console.error("Error creating job table", err);
   }
 };
-
-
-
-// Table where employers le kati choti job post garyo with same transcation Id
-// Create Transaction Table
-export const createTransactionTable = async () => {
-  try {
-      const query = `CREATE TABLE IF NOT EXISTS job_posting_transactions (
-          transaction_id SERIAL PRIMARY KEY,
-          job_post_count INT DEFAULT 1,
-          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      );`;
-      await pool.query(query);
-      console.log("Transaction Table Created");
-  } catch (err) {
-      console.error("Error creating job table", err);
-  }
-};
-
-
 
 
 export {pool};
