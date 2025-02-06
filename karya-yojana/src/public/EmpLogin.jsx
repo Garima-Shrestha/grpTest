@@ -28,7 +28,7 @@ const EmpLogin=({setToken})=> {
             const data = await response.json();
             if (response.ok) {
                 setToken(data.token);
-                console.log("Logging in");
+                localStorage.setItem("token", data.token); // Ensure token is stored
                 navigate('/empDash');
             } else {
                 console.error('Login failed:', data.error);

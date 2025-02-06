@@ -3,7 +3,10 @@ import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
 import "../css/JobPostingForm.css";
 import { Link } from "react-router-dom";
+
 const JobPostingForm = () => {
+  const [fetchError, setFetchError] = useState(null); 
+
   const [formData, setFormData] = useState({
     title: "",
     deadline: "",
@@ -23,14 +26,52 @@ const JobPostingForm = () => {
     setFormData({ ...formData, [field]: value });
   };
 
-  const handleSubmit = (e) => {
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log("Job Posted:", formData);
+  // };
+
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Job Posted:", formData);
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setFetchError("You are not authenticated. Please log in.");
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:3000/api/jobposting/jobreq/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Job posted successfully", data);
+        setFetchError(null); // Clear any previous errors
+        // navigate("/jobs"); 
+      } else {
+        setFetchError("Failed to post the job or Transaction limit exceeded.");
+      }
+    } catch (error) {
+      console.error("Error posting job:", error);
+      setFetchError("An error occurred. Please try again later.");
+    }
   };
 
   return (
       <div className="job-posting-container">
-        <h2 className="req-form-title">Post a Job</h2>
+      <h2 className="req-form-title">Post a Job</h2>
+      {fetchError && <div className="error-message">{fetchError}</div>}
+
         <form onSubmit={handleSubmit} className="req-form-content">
           <div className="req-form-group">
             <label>Job Title</label>
