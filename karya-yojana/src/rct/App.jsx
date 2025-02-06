@@ -6,9 +6,14 @@ import { Navigate } from 'react-router-dom';
 const LandingPage = React.lazy(() => import('../public/LandingPage.jsx'));
 const Authentication = React.lazy(() => import('../public/Authenticaiton.jsx'));
 const Feature = React.lazy(() => import('../features/Feature.jsx'));
+const EmpFeatures = React.lazy(() => import('../features/EmpFeatures'));
 const ProtectedRoute = ({ token, children }) => {
-  return token ? children : <Navigate to="/login" />;
+  if (!token) {
+    return <Navigate to="/login" />;
+  }
+  return <>{children}</>;
 };
+
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
 
@@ -24,7 +29,6 @@ function App() {
     localStorage.setItem("token", newToken);
     setToken(newToken);
   };
-
   return (
     <Router>
       <Suspense fallback={<div>Loading...</div>}>
@@ -62,6 +66,15 @@ function App() {
             element={<ProtectedRoute token={token}><Feature />
             </ProtectedRoute>}/>
             <Route path="/jobdesc/:jobId" element={<Feature/>} />
+           <Route path="/empDash"element={<ProtectedRoute token={token}><EmpFeatures />
+            </ProtectedRoute>}
+            />
+             <Route path="/jobreq"element={<ProtectedRoute token={token}><EmpFeatures />
+            </ProtectedRoute>}
+            />
+            <Route path="/pdf"element={<ProtectedRoute token={token}><EmpFeatures />
+            </ProtectedRoute>}
+            />
         </Routes>
       </Suspense>
     </Router>

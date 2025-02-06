@@ -1,4 +1,4 @@
-import { createUser, findEmail, deleteAccount} from "../model/autheticationModel.js";
+import { createUser, findEmail, deleteAccount } from "../model/autheticationModel.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -85,8 +85,6 @@ export const login = async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 }
-
-
 
 //For Managing Account i.e. deleting account
 export const manageAccount = async (req, res) => {

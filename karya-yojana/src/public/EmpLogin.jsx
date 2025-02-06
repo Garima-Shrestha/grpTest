@@ -29,7 +29,7 @@ const EmpLogin=({setToken})=> {
             if (response.ok) {
                 setToken(data.token);
                 console.log("Logging in");
-                navigate('/ApplicantHome');
+                navigate('/empDash');
             } else {
                 console.error('Login failed:', data.error);
                 setErrors({ general: data.error });

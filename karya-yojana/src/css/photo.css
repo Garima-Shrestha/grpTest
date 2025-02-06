@@ -1,7 +1,8 @@
 /* Resume Builder Container */
 .resume-builder-container {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
+  gap: 30px;
   align-items: center;
   min-height: 100vh;
   padding: 20px;
@@ -10,11 +11,12 @@
 
 .resume-form {
   background-color: white;
-  padding: 20px;
+  padding: 40px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 600px;
+  align-content: center;
 }
 
 .resume-form h1 {
@@ -35,10 +37,18 @@
   font-size: 1rem;
   background-color: #f9f9f9;
 }
-
+.resume-form select{
+  width: 103%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+}
 .resume-form textarea {
   height: 100px;
-  resize: vertical;
+  resize: none;
 }
 
 .resume-form input:focus,
@@ -49,9 +59,8 @@
 }
 
 .resume-form button {
-  width: 100%;
+  width: 103%;
   padding: 12px;
-  background-color: #4a90e2;
   color: white;
   font-size: 1.1rem;
   border: none;
@@ -87,12 +96,12 @@
 
 .resume-display p strong {
   font-weight: bold;
-  color: #4a90e2;
+  color: #2e5f45;
 }
 
 /* Edit Button Styling */
 .resume-builder-container button {
-  background-color: #f4a261;
+  background-color: #4a9e73;
   color: white;
   padding: 10px;
   border: none;
@@ -103,5 +112,5 @@
 }
 
 .resume-builder-container button:hover {
-  background-color: #e27d4c;
+  background-color: #357051;
 }

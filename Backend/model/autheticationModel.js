@@ -18,14 +18,10 @@ export const findEmail = async(email) => {
 }
 
 
-
-
 //For Managing Account i.e. deleting account
 export const deleteAccount = async (userId) => {              //Deletes a user with the given userId from the users table and returns the deleted user's data.
     const query = `DELETE FROM users WHERE id = $1 RETURNING *`;
     const result = await pool.query(query, [userId]);
     return result.rows[0];
   };
-  
-  
   

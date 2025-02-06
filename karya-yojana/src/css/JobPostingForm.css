@@ -1,0 +1,95 @@
+/* JobPostingForm.css */
+
+.job-posting-container {
+    max-width: 800px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .req-form-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .req-form-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .req-form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .req-form-group label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #444;
+    margin-bottom: 6px;
+  }
+  
+  .req-form-group input,
+  .req-form-group select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+  }
+  
+  .req-form-group input:focus,
+  .req-form-group select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0px 0px 6px rgba(0, 123, 255, 0.3);
+  }
+  
+  .quill {
+    background: #fff;
+    border-radius: 6px;
+    /* min-height: 120px; */
+  }
+  
+  .quillpara {
+    font-size: 14px;
+    color: #777;
+    margin-top: 5px;
+  }
+  
+  .req-form-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background: #4a9e73;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .req-form-button:hover {
+    background: #3a7b59;
+  }
+  
+  .job-posting-container a {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #4a9e73;
+    text-decoration: none;
+  }
+  
+ .job-posting-container a:hover {
+    text-decoration: underline;
+  }
+  

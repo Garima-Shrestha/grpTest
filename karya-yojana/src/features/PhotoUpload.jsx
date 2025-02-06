@@ -37,7 +37,7 @@ const ResumeBuilder = () => {
           const resume = data.resumes[0]; // Assuming only one resume per user
           console.log("Selected Resume:", resume);
           setResumeData(resume);
-          setFullName(resume.fullName);
+          setFullName(resume.full_name);
           setEmail(resume.email);
           setContact(resume.contact);
           setAddress(resume.address);
