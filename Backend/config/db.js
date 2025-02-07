@@ -95,7 +95,7 @@ export const createTableJob = async () => {
           position VARCHAR(50) NOT NULL,
           description TEXT NOT NULL,
           qualifications TEXT NOT NULL,
-          transaction varchar(20) NOT NULL,
+          transaction VARCHAR(20) ,
           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );`;
       await pool.query(query);
