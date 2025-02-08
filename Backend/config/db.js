@@ -23,6 +23,7 @@ export const createTable = async () => {
       password TEXT NOT NULL,
       contact_number VARCHAR(15) NOT NULL,  
       gender VARCHAR(10) NOT NULL,
+      role VARCHAR(10) NOT NULL DEFAULT 'applicant',
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `;
@@ -46,6 +47,7 @@ export const createTable = async () => {
         address VARCHAR(255) NOT NULL,
         pan_number VARCHAR(15) NOT NULL,
         company_type VARCHAR(50) NOT NULL,
+        role VARCHAR(10) NOT NULL DEFAULT 'employer',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
       `;

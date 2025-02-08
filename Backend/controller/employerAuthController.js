@@ -6,7 +6,7 @@ dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
 
 export const employerRegister = async (req, res) =>{
-    const {companyName, email, password, contact, address, panNumber, companyType} = req.body;
+    const {companyName, email, password, contact, address, panNumber, companyType, role='employer'} = req.body;
 
     try{
         console.log('if company user exists...');
@@ -20,7 +20,7 @@ export const employerRegister = async (req, res) =>{
         console.log("Creating new employers...");
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const newEmployer = await createEmployer(companyName, email, hashedPassword, contact, address, panNumber, companyType);
+        const newEmployer = await createEmployer(companyName, email, hashedPassword, contact, address, panNumber, companyType, role);
 
         console.log("Employer created: ", newEmployer);
 
@@ -31,7 +31,7 @@ export const employerRegister = async (req, res) =>{
 
         console.log('Generating JWT...');
         const token = jwt.sign(
-            {id:newEmployer.id, email:newEmployer.email},
+            {id:newEmployer.id, email:newEmployer.email, role:newEmployer.role},
             jwtSecret,
             {expiresIn: '24h'}
         );
@@ -67,14 +67,14 @@ export const employerLogin = async (req, res) => {
 
         console.log('Password matched. Generating JWT...');
             const token = jwt.sign(
-                { id: employer.id, email: employer.email },
+                { id: employer.id, email: employer.email, role:employer.role },
                 jwtSecret,
                 { expiresIn: '24h' }
             );
         
         res.status(200).json({
             message: 'Login successful',
-            employer: { id: employer.id, companyName: employer.companyName, email: employer.email },
+            employer: { id: employer.id, companyName: employer.companyName, email: employer.email, role:employer.role },
             token,
         });    
     }catch(error){

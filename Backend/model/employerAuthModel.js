@@ -1,10 +1,10 @@
 import {pool} from '../config/db.js';
 
-export const createEmployer = async (companyName, email, password, contact, address, panNumber, companyType) =>{
+export const createEmployer = async (companyName, email, password, contact, address, panNumber, companyType, role) =>{
     try{
-        const query = `INSERT INTO employers(company_name, email, password, contact, address, pan_number, company_type) 
-                        VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
-        const values = [companyName, email, password, contact, address, panNumber, companyType];
+        const query = `INSERT INTO employers(company_name, email, password, contact, address, pan_number, company_type, role) 
+                        VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`;
+        const values = [companyName, email, password, contact, address, panNumber, companyType, role];
         const result= await pool.query(query,values);
         return result.rows[0];
     }catch(error){

@@ -7,7 +7,7 @@ dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
 
 export const register = async(req, res) => {
-    const {username, email, password, contactNumber, gender} = req.body;
+    const {username, email, password, contactNumber, gender, role='applicant'} = req.body;
 
     try{
         console.log('Checking if user exists...');
@@ -21,7 +21,7 @@ export const register = async(req, res) => {
         console.log('Creating new user...');
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const newUser = await createUser(username, email, hashedPassword, contactNumber, gender);
+        const newUser = await createUser(username, email, hashedPassword, contactNumber, gender, role);
 
         console.log('User created: ', newUser);
 
@@ -33,7 +33,7 @@ export const register = async(req, res) => {
 
         console.log('Generating JWT...');
         const token = jwt.sign(
-          { id: newUser.id, email: newUser.email }, 
+          { id: newUser.id, email: newUser.email, role:newUser.role }, 
           jwtSecret, 
           { expiresIn: '24h' }
         );
@@ -70,16 +70,16 @@ export const login = async (req, res) => {
 
         console.log('Password matched. Generating JWT...');
         const token = jwt.sign(
-          { id: user.id, email: user.email },
+          { id: user.id, email: user.email, role:user.role },
           jwtSecret,
           { expiresIn: '24h' }
         );
-      
-        res.status(200).json({
-          message: 'Login successful',
-          user: { id: user.id, username: user.username, email: user.email },
-          token,
-      });
+
+         res.status(200).json({
+            message: 'Login successful',
+            user: { id: user.id, username: user.username, email: user.email, role: user.role }, 
+            token,
+        });
     }catch (error) {
         console.error('Login error:', error);
         res.status(500).json({ error: 'Server error' });
