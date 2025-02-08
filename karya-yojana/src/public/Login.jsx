@@ -29,9 +29,28 @@ const LoginApplicant = ({setToken}) => {
             const data = await response.json();
             if (response.ok) {
                 setToken(data.token);
-                console.log("Logging in, token received:", data.token); // Debugging log
                 localStorage.setItem("token", data.token); // Ensure token is stored
-                navigate('/ApplicantHome');
+
+                localStorage.setItem("user", JSON.stringify({ isAuthenticated: true, role: data.user.role }));      // role: data.user.role => Storing user role received from backend
+
+
+                console.log("Token:", data.token);
+console.log("User data:", { isAuthenticated: true, role: data.user.role });
+
+
+                // navigate('/ApplicantHome');
+                console.log("Applicant Logged in successfully");
+
+                setToken(data.user.role);  
+
+                // Navigate based on role
+                if (data.user.role === 'admin') {
+                    navigate('/useradmin');  // Redirect to admin page
+                } else {
+                    navigate('/ApplicantHome');  // Redirect to applicant page
+                }
+  
+                // navigate(data.user.role === "admin" ? "/useradmin" : "/ApplicantHome");
             } else {
                 console.error('Login failed:', data.error);
                 setErrors({ general: data.error });
