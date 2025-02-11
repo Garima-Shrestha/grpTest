@@ -6,6 +6,7 @@ const EmpFooter = lazy(() => import("./EmpFooter.jsx"));
 const Dash = lazy(() => import("./EmpDashboard.jsx"));
 const Req = lazy(()=>import("./JobReq.jsx"))
 const PDF = lazy(()=>import("./pdf.jsx"))
+const EmpProfile = lazy(() => import("./EmployerProfile.jsx"));
 const EmpFeature = () => {
   const location = useLocation();
 
@@ -15,6 +16,7 @@ const EmpFeature = () => {
       {location.pathname === "/empDash" ?( <Dash /> ):
       location.pathname==='/jobreq'?(<Req/>):
       location.pathname==='/pdf'?(<PDF/>): 
+      location.pathname==='/empprofile'?(<EmpProfile/>): 
       <div>404 Page Not Found</div>}
 
       <EmpFooter />

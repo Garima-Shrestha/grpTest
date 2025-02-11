@@ -44,7 +44,7 @@ const EmpHeader = () => {
         {isDropdownOpen && (
           <div className="dropdown-menu">
             <ul>
-              <li onClick={() => window.location.href = "/profileEmp"}>Profile</li>
+              <li onClick={() => window.location.href = "/empprofile"}>Profile</li>
               <li onClick={() => window.location.href = "/empManageAcc"}>Manage Account</li>
               <li onClick={handleLogout}>Logout</li>
             </ul>
