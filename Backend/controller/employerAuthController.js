@@ -4,45 +4,118 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
+import { getEmployerById, updateEmployerById, deleteEmployerById } from '../model/employerAuthModel.js';
 
-export const employerRegister = async (req, res) =>{
-    const {companyName, email, password, contact, address, panNumber, companyType, role='employer'} = req.body;
+// Fetch Employer Profile
+export const getEmployerProfile = async (req, res) => {
+  try {
+    const employerId = req.user.id; // Assuming user ID is extracted from JWT
+    const employer = await getEmployerById(employerId);
 
-    try{
-        console.log('if company user exists...');
-        const existingEmployer = await findEmployerEmail(email);
-
-        if (existingEmployer){
-            console.log("Employer exists", existingEmployer);
-            return res.status(400).json({error: "Employer already exists"});
-        }
-
-        console.log("Creating new employers...");
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const newEmployer = await createEmployer(companyName, email, hashedPassword, contact, address, panNumber, companyType, role);
-
-        console.log("Employer created: ", newEmployer);
-
-        if(!newEmployer){
-            console.log("Failed to create new employer");
-            return res.status(500).json({error: 'Failed to create new employer'});
-        }
-
-        console.log('Generating JWT...');
-        const token = jwt.sign(
-            {id:newEmployer.id, email:newEmployer.email, role:newEmployer.role},
-            jwtSecret,
-            {expiresIn: '24h'}
-        );
-
-        console.log("Sending response...");
-        res.status(201).json({message: 'Employer created sucessfully', token})
-    }catch(error){
-        console.error('Signup error:', error);
-        res.status(500).json({error: 'Server error', details: error.message})
+    if (!employer) {
+      return res.status(404).json({ error: "Employer profile not found" });
     }
-}
+
+    res.status(200).json({ profile: employer });
+  } catch (error) {
+    res.status(500).json({ error: "Server error", details: error.message });
+  }
+};
+
+// Update Employer Profile
+export const updateEmployerProfile = async (req, res) => {
+  try {
+    const employerId = req.user.id;
+    const photoPath = req.file ? `/uploads/${req.file.filename}` : null;
+    const updatedData = {
+      name: req.body.name,
+      email: req.body.email,
+      phoneNumber: req.body.phoneNumber,
+      companyType: req.body.companyType,
+      panNumber: req.body.panNumber,
+      companyDesc: req.body.companyDesc,
+      photoPath: photoPath,
+    };
+
+    const updatedEmployer = await updateEmployerById(employerId, updatedData);
+
+    if (!updatedEmployer) {
+      return res.status(404).json({ error: "Employer not found" });
+    }
+
+    res.status(200).json({ message: "Profile updated successfully", profile: updatedEmployer });
+  } catch (error) {
+    res.status(500).json({ error: "Server error", details: error.message });
+  }
+};
+
+// Delete Employer Profile
+export const deleteEmployerProfile = async (req, res) => {
+  try {
+    const employerId = req.user.id;
+    const deletedEmployer = await deleteEmployerById(employerId);
+
+    if (!deletedEmployer) {
+      return res.status(404).json({ error: "Employer not found" });
+    }
+
+    res.status(200).json({ message: "Profile deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Server error", details: error.message });
+  }
+};
+
+export const employerRegister = async (req, res) => {
+    const { companyName, email, password, contact, address, panNumber, companyType, role = "employer", companyDesc } = req.body;
+  
+    try {
+      console.log("Checking if employer already exists...");
+      const existingEmployer = await findEmployerEmail(email);
+  
+      if (existingEmployer) {
+        console.log("Employer exists", existingEmployer);
+        return res.status(400).json({ error: "Employer already exists" });
+      }
+  
+      console.log("Hashing password...");
+      const hashedPassword = await bcrypt.hash(password, 10);
+  
+      // Handle file upload
+      const photoPath = req.file ? `/uploads/${req.file.filename}` : null; // Store file path, not buffer
+  
+      console.log("Creating new employer...");
+      const newEmployer = await createEmployer(
+        companyName,
+        email,
+        hashedPassword,
+        contact,
+        address,
+        panNumber,
+        companyType,
+        role,
+        companyDesc,
+        photoPath // Pass file path instead of buffer
+      );
+  
+      if (!newEmployer) {
+        console.log("Failed to create new employer");
+        return res.status(500).json({ error: "Failed to create new employer" });
+      }
+  
+      console.log("Generating JWT...");
+      const token = jwt.sign(
+        { id: newEmployer.employer.id, email: newEmployer.employer.email, role: newEmployer.employer.role },
+        jwtSecret,
+        { expiresIn: "24h" }
+      );
+  
+      console.log("Sending response...");
+      res.status(201).json({ message: "Employer created successfully", token });
+    } catch (error) {
+      console.error("Signup error:", error);
+      res.status(500).json({ error: "Server error", details: error.message });
+    }
+  };
 
 
 //Login

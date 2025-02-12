@@ -20,7 +20,7 @@ const ProtectedRoute = ({ allowedRoles }) => {
     return <Outlet />;
   } catch (error) {
     localStorage.removeItem("token");
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 };
 

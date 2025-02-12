@@ -106,6 +106,21 @@ export const createTableJob = async () => {
       console.error("Error creating job table", err);
   }
 };
-
+export const createEmpProfile = async () => {
+  try {
+      const query = `CREATE TABLE IF NOT EXISTS employer_profiles (
+        id SERIAL PRIMARY KEY,
+        employer_id INTEGER REFERENCES employers(id) ON DELETE CASCADE,
+        company_desc TEXT,
+        photo VARCHAR(255),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );`;
+      await pool.query(query);
+      console.log("Job Posting Table Created");
+  } catch (err) {
+      console.error("Error creating job table", err);
+  }
+};
 
 export {pool};
