@@ -18,6 +18,19 @@ export const findEmail = async(email) => {
     return rows[0];
 }
 
+
+
+//For Managing Account i.e. deleting account
+export const deleteAccount  = async (id) => {
+  const result = await pool.query('DELETE FROM users WHERE id = $1 RETURNING *', [id]);
+  return result.rows[0];
+};
+
+
+
+
+
+//Admin Page (Fetching Applicant)
 export const getAllUsers = async () => {
     try {
       const result = await pool.query('SELECT id, username, email, gender, contact_number, role FROM users');
@@ -27,7 +40,10 @@ export const getAllUsers = async () => {
       throw error;
     }
   };
-  
+
+
+
+  //Admin Page (Updating Applicant)
   // In userModel.js
   export const updateUser = async (id, userData) => {
     const fields = [];
@@ -50,18 +66,19 @@ export const getAllUsers = async () => {
     return result.rows[0];
   };
 
-//For Managing Account i.e. deleting account
-export const deleteAccount  = async (id) => {
-  const result = await pool.query('DELETE FROM users WHERE id = $1 RETURNING *', [id]);
-  return result.rows[0];
-};
 
+
+//Admin Page (Deleting Applicant)
 export const deleteAccountIndv = async (userId) => {              //Deletes a user with the given userId from the users table and returns the deleted user's data.
   const query = `DELETE FROM users WHERE id = $1 RETURNING *`;
   const result = await pool.query(query, [userId]);
   return result.rows[0];
 };
 
+
+
+
+//Admin Dashboard Showing total number of applicant
 export const getTotalUsersCount = async () => {
   const query = 'SELECT COUNT(*) FROM users WHERE role != $1';  // Exclude admin users
   const result = await pool.query(query, ['admin']);
