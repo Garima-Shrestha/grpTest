@@ -18,11 +18,52 @@ export const findEmail = async(email) => {
     return rows[0];
 }
 
-
-//For Managing Account i.e. deleting account
-export const deleteAccount = async (userId) => {              //Deletes a user with the given userId from the users table and returns the deleted user's data.
-    const query = `DELETE FROM users WHERE id = $1 RETURNING *`;
-    const result = await pool.query(query, [userId]);
-    return result.rows[0];
+export const getAllUsers = async () => {
+    try {
+      const result = await pool.query('SELECT id, username, email, gender, contact_number, role FROM users');
+      return result.rows;
+    } catch (error) {
+      console.error('Error fetching all users:', error);
+      throw error;
+    }
   };
   
+  // In userModel.js
+  export const updateUser = async (id, userData) => {
+    const fields = [];
+    const values = [];
+    let paramIndex = 1;
+  
+    Object.entries(userData).forEach(([key, value]) => {
+      if (value !== undefined) {
+        fields.push(`${key} = $${paramIndex}`);
+        values.push(value);
+        paramIndex++;
+      }
+    });
+  
+    if (fields.length === 0) throw new Error("No fields to update");
+  
+    values.push(id);
+    const query = `UPDATE users SET ${fields.join(', ')} WHERE id = $${paramIndex} RETURNING *`;
+    const result = await pool.query(query, values);
+    return result.rows[0];
+  };
+
+//For Managing Account i.e. deleting account
+export const deleteAccount  = async (id) => {
+  const result = await pool.query('DELETE FROM users WHERE id = $1 RETURNING *', [id]);
+  return result.rows[0];
+};
+
+export const deleteAccountIndv = async (userId) => {              //Deletes a user with the given userId from the users table and returns the deleted user's data.
+  const query = `DELETE FROM users WHERE id = $1 RETURNING *`;
+  const result = await pool.query(query, [userId]);
+  return result.rows[0];
+};
+
+export const getTotalUsersCount = async () => {
+  const query = 'SELECT COUNT(*) FROM users WHERE role != $1';  // Exclude admin users
+  const result = await pool.query(query, ['admin']);
+  return result.rows[0].count;
+};

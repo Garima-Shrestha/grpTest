@@ -24,7 +24,7 @@ const ManageAccount = () => {
       }
 
       try {
-        const response = await fetch("http://localhost:3000/api/auth/appManageAcc", {
+        const response = await fetch("http://localhost:3000/api/auth/appManageAccIndv", {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

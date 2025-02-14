@@ -1,0 +1,203 @@
+/* Main Container */
+.user-management-userAcc {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    margin-left: 250px; /* Leave space for the sidebar */
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 1200px; /* Limit the width */
+    margin-right: 20px;
+  }
+  
+  /* Form Styling */
+  .user-form-userAcc {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .form-row-userAcc {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .user-form-userAcc input,
+  .user-form-userAcc select,
+  .user-form-userAcc .user-form-submit-button {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+  .user-form-userAcc select{
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    width:102%;
+  }
+  /* Focus styles */
+  .user-form-userAcc input:focus,
+  .user-form-userAcc select:focus {
+    border-color: #4a9e73;
+    outline: none;
+  }
+  
+  .user-form-submit-button {
+    background-color: #4a9e73;
+    color: white;
+    cursor: pointer;
+    margin-left: 2%;
+  }
+  
+  .user-form-submit-button:hover {
+    background-color: #367052;
+  }
+  
+  /* Table Styling */
+  .user-table-userAcc {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-left: 1%;
+  }
+  
+  .user-table-userAcc th,
+  .user-table-userAcc td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .user-table-userAcc th {
+    background-color: #4a9e73;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .user-table-userAcc tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Button Styling in Table */
+  .user-management-table-button {
+    padding: 8px 12px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 5px;
+  }
+  
+  .user-management-table-button:hover {
+    background-color: #c82333;
+  }
+  .password-container-user {
+    position: relative;
+  }
+  
+  .show-password-btn-user {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .show-password-btn-user:hover {
+    text-decoration: underline;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .user-management-userAcc {
+      margin-left: 0;
+      padding: 15px;
+      margin-right: 0;
+    }
+  
+    .user-form-userAcc {
+      gap: 10px;
+    }
+  
+    .form-row-userAcc {
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 5px;
+    }
+  
+    .user-form-userAcc input,
+    .user-form-userAcc select {
+      flex: 1;
+      min-width: 150px;
+    }
+  
+    .user-form-userAcc input:last-child,
+    .user-form-userAcc select:last-child {
+      margin-right: 0;
+    }
+  
+    .user-table-userAcc th,
+    .user-table-userAcc td {
+      padding: 10px;
+    }
+  
+    .user-table-userAcc button {
+      width: 100%;
+      padding: 10px;
+      text-align: center;
+    }
+  }
+  
+  /* Improve the general form appearance */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  select {
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+  }
+  
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="password"]:focus,
+  select:focus {
+    border-color: #4a9e73;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  select {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  /* Button styles */
+  .user-form-submit-button {
+    background-color: #4a9e73;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+  }
+  
+  .user-form-submit-button:hover {
+    background-color: #367052;
+  }
+  

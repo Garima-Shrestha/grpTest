@@ -1,4 +1,4 @@
-import { createUser, findEmail, deleteAccount } from "../model/autheticationModel.js";
+import { createUser, findEmail, deleteAccount, updateUser,getAllUsers, deleteAccountIndv} from "../model/autheticationModel.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -86,13 +86,36 @@ export const login = async (req, res) => {
     }
 }
 
-//For Managing Account i.e. deleting account
-export const manageAccount = async (req, res) => {
+
+export const manageAccount  = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedUser  = await deleteAccount (id);
+    if (!deletedUser ) {
+      return res.status(404).json({ error: 'User  not found' });
+    }
+    res.json({ message: 'User  deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error deleting user' });
+  }
+};
+export const getAllUser = async (req, res) => {
+  try {
+    const users = await getAllUsers();
+    res.json(users);
+    console.log(users);
+  } catch (error) {
+    
+    res.status(500).json({ error: 'Error fetching users' });
+  }
+};
+
+export const manageAccountIndv = async (req, res) => {
   const userId = req.user.id;  // Extract user ID from token
 
   try {
     console.log("Deleting user account...");
-    const deletedUser = await deleteAccount(userId);
+    const deletedUser = await deleteAccountIndv(userId);
 
     if (!deletedUser) {
       console.error("User not found");
@@ -103,5 +126,39 @@ export const manageAccount = async (req, res) => {
   } catch (error) {
     console.error("Error managing account:", error);
     res.status(500).json({ error: "Server error", details: error.message });
+  }
+};
+
+export const updateUsers = async (req, res) => {
+  const { id } = req.params;
+  let updateData = { ...req.body };
+
+  try {
+    // If the request includes a password, hash it before updating
+    if (updateData.password) {
+      updateData.password = await bcrypt.hash(updateData.password, 10);
+    }
+
+    const updatedUser = await updateUser(id, updateData);
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json(updatedUser);
+  } catch (error) {
+    console.error('Error updating user:', error);
+    res.status(500).json({ error: 'Error updating user' });
+  }
+};
+
+import { getTotalUsersCount } from '../model/autheticationModel.js';
+
+export const getTotalApplicants = async (req, res) => {
+  try {
+    const count = await getTotalUsersCount();
+    res.json({ count });
+  } catch (error) {
+    console.error('Error getting total applicants:', error);
+    res.status(500).send('Server error');
   }
 };
