@@ -9,6 +9,29 @@ const jwtSecret = process.env.JWT_SECRET;
 export const register = async(req, res) => {
     const {username, email, password, contact, gender, role='applicant'} = req.body;
 
+
+      // Validation
+      const emailCheck = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!email || !emailCheck.test(email)) {
+          return res.status(400).json({ error: 'Invalid email format' });
+      }
+
+      const passwordLengthValid = password.length >= 8; // Minimum 8 characters
+      const containsUppercase = /[A-Z]/.test(password); // At least 1 uppercase letter
+      const containsNumber = /\d/.test(password); // At least 1 number
+      const containsSpecialChar = /[@$!%*?&#]/.test(password); // At least 1 special character
+    
+      if (!passwordLengthValid) {
+        return res.status(400).json({ error: 'Password must be at least 8 characters.' });
+      } else if (!containsUppercase || !containsNumber || !containsSpecialChar) {
+          return res.status(400).json({ error: 'Password must contain one uppercase letter, one number, and one special character.' });
+      }
+          
+      if (!contact || contact.length !== 10) {
+        return res.status(400).json({ error: 'Contact number must be exactly 10 digits!' });
+      }
+
+
     try{
         console.log('Checking if user exists...');
         const existingUser = await findEmail(email);

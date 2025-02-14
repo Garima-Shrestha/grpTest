@@ -25,6 +25,9 @@ function EmpSignup(){
     };
     const handleSignup = async (e) => {
         e.preventDefault(); 
+        
+        let hasError = false;
+
         const passwordLengthValid = password.length >= 8; // Minimum 8 characters
         const containsUppercase = /[A-Z]/.test(password); // At least 1 uppercase letter
         const containsNumber = /\d/.test(password); // At least 1 number
