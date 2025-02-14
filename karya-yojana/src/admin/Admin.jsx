@@ -4,12 +4,15 @@ import { useNavigate } from 'react-router-dom';
 const Dash = lazy(() => import("./AdminDashboard.jsx"));
 const UserManage= lazy(()=>import("./AdminUser.jsx"));
 const Sidebar= lazy(()=>import("./SideBar.jsx"));
+const EmployerViewPage = React.lazy(() => import('../admin/EmployerView.jsx'));
+
 const Admin = () => {
     const location = useLocation();
     const navigate = useNavigate();
    const routeComponents = {
        '/useradmin': <Dash/>,
-       '/userManage':<UserManage/>
+       '/userManage':<UserManage/>,
+       '/empview':<EmployerViewPage/>
      };
     return (
         <>

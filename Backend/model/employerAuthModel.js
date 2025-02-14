@@ -79,3 +79,75 @@ export const deleteEmployerById = async (id) => {
   return rows[0]; // Return deleted employer object
 };
 
+
+
+
+
+//Admin ko page ma Employer ko info
+// fetch garna
+export const getEmployers = async () => {
+  const query = 'SELECT id, company_name, email, contact, address, pan_number, company_type FROM employers;';
+  try{
+      const result = await pool.query(query);
+      return result.rows;
+  }catch (error) {
+      console.error('Error fetching employer info:', error);
+      throw error;  
+  }
+};
+
+
+
+// Add garna by admin
+export const addEmployersByAdmin = async (companyName, email, password, contactNumber, address, panNumber, companyType) => {
+  try {
+      const query = `INSERT INTO employers(company_name, email, password, contact, address, pan_number, company_type) 
+                    VALUES ($1, $2, $3, $4, $5, $6, $7) 
+                    RETURNING id,company_name, email, password, contact, address, pan_number, company_type`;
+      const values =[companyName, email, password, contactNumber, address, panNumber, companyType];
+    
+      const result = await pool.query(query, values);
+      return result.rows[0];
+  } catch (error) {
+      console.error('Error adding employers to DB:', error);
+      throw error;  
+  }
+};
+
+
+// Update garna by admin
+
+export const updateEmployerByAdmin = async (id, userData) => {
+  const fields = [];
+  const values = [];
+  let paramIndex = 1;
+
+  Object.entries(userData).forEach(([key, value]) => {
+    if (value !== undefined) {
+      fields.push(`${key} = $${paramIndex}`);
+      values.push(value);
+      paramIndex++;
+    }
+  });
+
+  if (fields.length === 0) throw new Error("No fields to update");
+
+  values.push(id);
+  const query = `UPDATE employers SET ${fields.join(', ')} WHERE id = $${paramIndex} RETURNING *`;
+  const result = await pool.query(query, values);
+  return result.rows[0];
+};
+
+
+
+// Delete garna by admin
+export const deleteEmployerByAdmin = async (id) => {
+  const query = `DELETE FROM employers WHERE id = $1`; 
+  try {
+      const result = await pool.query(query, [id]);
+      return result; 
+  } catch (error) {
+      console.error('Error deleting employers:', error);
+      throw error;  
+  }
+};

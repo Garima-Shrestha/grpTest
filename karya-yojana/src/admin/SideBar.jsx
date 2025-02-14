@@ -30,6 +30,9 @@ const AdminSidebar = () => {
                         <li className={location.pathname === "/userManage" ? "active" : ""}>
                             <Link to="/userManage">Applicant Management</Link>
                         </li>
+                        <li className={location.pathname === "/empview" ? "active" : ""}>
+                            <Link to="/empview">Employer Management</Link>
+                        </li>
                         <li>
                             <button className="logout-btn" onClick={handleLogout}>Logout</button>
                         </li>

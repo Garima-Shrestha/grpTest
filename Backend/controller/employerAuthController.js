@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
 import { getEmployerById, updateEmployerById, deleteEmployerById } from '../model/employerAuthModel.js';
+import { getEmployers, addEmployersByAdmin, updateEmployerByAdmin, deleteEmployerByAdmin } from '../model/employerAuthModel.js';     //Admin
 
 // Fetch Employer Profile
 export const getEmployerProfile = async (req, res) => {
@@ -156,3 +157,81 @@ export const employerLogin = async (req, res) => {
     }
 
 }
+
+
+
+
+//Admin ko page ma Employer ko info
+//Fetch garna
+export const fetchEmployerInfo = async (req, res) => {
+  try {
+      const employers = await getEmployers();
+      if (!employers) {
+          return res.status(404).json({ message: 'Employers Info not found' });
+      }
+
+      res.json({message: 'Employers Info fetched', employers}); 
+  } catch (error) {
+      console.error('Error in fetchEmployerInfo:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+
+// Add garna by admin
+export const addEmployer = async (req, res) => {
+  const { companyName, email, password, contactNumber, address, panNumber, companyType } = req.body; 
+
+  try {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const newEmployer = await addEmployersByAdmin(companyName, email, hashedPassword, contactNumber, address, panNumber, companyType);
+      res.status(201).json({ message: 'Emmployer added successfully', employer: newEmployer });
+  } catch (error) {
+      console.error('Error adding employer:', error);
+      res.status(500).json({ message: 'Error adding employer', error: error.message });
+  }
+};
+
+
+
+
+// Update garna by admin
+export const updateEmployer = async (req, res) => {
+  const { id } = req.params;
+  let updateData = { ...req.body };
+
+  try {
+    // If the request includes a password, hash it before updating
+    if (updateData.password) {
+      updateData.password = await bcrypt.hash(updateData.password, 10);
+    }
+
+    const updatingEmployer = await updateEmployerByAdmin(id, updateData);
+    if (!updatingEmployer) {
+      return res.status(404).json({ error: 'Employer not found' });
+    }
+
+    res.json(updatingEmployer);
+  } catch (error) {
+    console.error('Error updating employer:', error);
+    res.status(500).json({ error: 'Error updating employer' });
+  }
+};
+
+
+
+
+//Delete garna by admin
+export const deleteEmployer= async (req, res) => {
+  const employerId = req.params.id; // Get the employer ID from the request parameters
+  try {
+      const deletedEmployer = await deleteEmployerByAdmin(employerId);
+      if (!deletedEmployer) {
+          return res.status(404).json({ error: "Employer not found" });
+      }
+      res.status(200).json({ message: "Employer deleted successfully" });
+  } catch (error) {
+      res.status(500).json({ error: "Server error", details: error.message });
+  }
+};
