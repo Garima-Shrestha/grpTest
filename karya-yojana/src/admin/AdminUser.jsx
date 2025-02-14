@@ -4,7 +4,7 @@ import "../css/UserManagement.css";
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
-  const [formData, setFormData] = useState({ username: "", email: "", password: "", gender: "", contact: "" });
+  const [formData, setFormData] = useState({ username: "", email: "", password: "", gender: "", contactNumber: "" });
   const [editingUserId, setEditingUserId] = useState(null);
   const [showPassword, setShowPassword] = useState(false);  // New state to handle password visibility
 
@@ -40,10 +40,10 @@ const UserManagement = () => {
 
       // Convert contact to contact_number
       const dataToSend = { 
-        ...formData, 
-        contactNumber: formData.contact // Corrected key from contact_number to contactNumber
+        ...formData
+        // contact_number: formData.contact // Corrected key from contact_number to contactNumber
       };
-      delete dataToSend.contact;
+    //   delete dataToSend.contact;
 
       if (editingUserId && dataToSend.password === "") {
         delete dataToSend.password;
@@ -59,6 +59,7 @@ const UserManagement = () => {
         await axios.post("http://localhost:3000/api/auth/register", dataToSend, {
           headers: {
             Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
           },
         });
       }

@@ -35,7 +35,7 @@ export const getAllUsers = async () => {
     let paramIndex = 1;
   
     Object.entries(userData).forEach(([key, value]) => {
-      if (value !== undefined) {
+      if (value !== undefined && value !== '') {
         fields.push(`${key} = $${paramIndex}`);
         values.push(value);
         paramIndex++;

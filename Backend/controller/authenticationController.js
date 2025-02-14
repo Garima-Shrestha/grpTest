@@ -7,7 +7,7 @@ dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
 
 export const register = async(req, res) => {
-    const {username, email, password, contactNumber, gender, role='applicant'} = req.body;
+    const {username, email, password, contact, gender, role='applicant'} = req.body;
 
     try{
         console.log('Checking if user exists...');
@@ -21,8 +21,8 @@ export const register = async(req, res) => {
         console.log('Creating new user...');
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const newUser = await createUser(username, email, hashedPassword, contactNumber, gender, role);
-
+        const newUser = await createUser(username, email, hashedPassword, contact, gender, role);
+        
         console.log('User created: ', newUser);
 
         if (!newUser) {
@@ -133,12 +133,18 @@ export const updateUsers = async (req, res) => {
   const { id } = req.params;
   let updateData = { ...req.body };
 
+  // Ensure contact field is correctly named
+  if (updateData.contact) {
+    updateData.contact_number = updateData.contact; // Change the field name
+    delete updateData.contact; // Delete the old key
+  }
+
   try {
     // If the request includes a password, hash it before updating
     if (updateData.password) {
       updateData.password = await bcrypt.hash(updateData.password, 10);
     }
-
+    console.log(updateData);
     const updatedUser = await updateUser(id, updateData);
     if (!updatedUser) {
       return res.status(404).json({ error: 'User not found' });
@@ -150,6 +156,7 @@ export const updateUsers = async (req, res) => {
     res.status(500).json({ error: 'Error updating user' });
   }
 };
+
 
 import { getTotalUsersCount } from '../model/autheticationModel.js';
 
