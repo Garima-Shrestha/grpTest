@@ -206,6 +206,31 @@ export const fetchEmployerInfo = async (req, res) => {
 export const addEmployer = async (req, res) => {
   const { companyName, email, password, contactNumber, address, panNumber, companyType } = req.body; 
 
+  // Validation
+  if (!companyName || !email || !password || !contactNumber || !address || !panNumber || !companyType) {
+    return res.status(400).json({ error: 'All fields are required.' });
+  }
+
+  const emailCheck = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  if (!emailCheck.test(email)) {
+      return res.status(400).json({ error: 'Invalid email format.' });
+  }
+
+  const passwordLengthValid = password.length >= 8; 
+  const containsUppercase = /[A-Z]/.test(password);  
+  const containsNumber = /\d/.test(password); 
+  const containsSpecialChar = /[@$!%*?&#]/.test(password);  
+
+  if (!passwordLengthValid || !containsUppercase || !containsNumber || !containsSpecialChar) {
+      return res.status(400).json({ error: 'Password must be at least 8 characters long and contain an uppercase letter, a number, and a special character.' });
+  }
+
+  if (contactNumber.length !== 10 || !/^\d+$/.test(contactNumber)) {
+      return res.status(400).json({ error: 'Contact number must be exactly 10 digits and contain only numbers.' });
+  }
+
+
+
   try {
       const hashedPassword = await bcrypt.hash(password, 10);
       const newEmployer = await addEmployersByAdmin(companyName, email, hashedPassword, contactNumber, address, panNumber, companyType);
@@ -223,6 +248,22 @@ export const addEmployer = async (req, res) => {
 export const updateEmployer = async (req, res) => {
   const { id } = req.params;
   let updateData = { ...req.body };
+
+
+    // Validation
+    if (updateData.email) {
+      const emailCheck = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailCheck.test(updateData.email)) {
+          return res.status(400).json({ error: 'Invalid email format.' });
+      }
+  }
+
+  if (updateData.contact) {
+      if (updateData.contact.length !== 10 || !/^\d+$/.test(updateData.contact)) {
+          return res.status(400).json({ error: 'Contact number must be exactly 10 digits and contain only numbers.' });
+      }
+  }
+
 
   try {
     // If the request includes a password, hash it before updating
