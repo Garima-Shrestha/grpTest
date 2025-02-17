@@ -33,7 +33,7 @@ export const deleteAccount  = async (id) => {
 //Admin Page (Fetching Applicant)
 export const getAllUsers = async () => {
     try {
-      const result = await pool.query('SELECT id, username, email, gender, contact_number, role FROM users');
+      const result = await pool.query('SELECT id, username, email, gender, contact_number, role FROM users WHERE role = $1', ['applicant']);
       return result.rows;
     } catch (error) {
       console.error('Error fetching all users:', error);

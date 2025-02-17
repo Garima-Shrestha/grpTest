@@ -5,6 +5,7 @@ const Dash = lazy(() => import("./AdminDashboard.jsx"));
 const UserManage= lazy(()=>import("./AdminUser.jsx"));
 const Sidebar= lazy(()=>import("./SideBar.jsx"));
 const EmployerViewPage = React.lazy(() => import('../admin/EmployerView.jsx'));
+const JobsHandel = React.lazy(()=>import('../admin/JobHandel.jsx'));
 
 const Admin = () => {
     const location = useLocation();
@@ -12,7 +13,8 @@ const Admin = () => {
    const routeComponents = {
        '/useradmin': <Dash/>,
        '/userManage':<UserManage/>,
-       '/empview':<EmployerViewPage/>
+       '/empview':<EmployerViewPage/>,
+       '/handelJob':<JobsHandel/>,
      };
     return (
         <>

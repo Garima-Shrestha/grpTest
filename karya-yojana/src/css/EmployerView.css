@@ -1,144 +1,169 @@
 .employerview-by-admin {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    background-color: #ffffff;
-    margin-left: 260px;
-  }
-  
-  .employerview-by-admin .employer-inputfield {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 30px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .employerview-by-admin .employer-inputfield label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: #333;
-  }
-  
-  .employerview-by-admin .employer-inputfield input,
-  .employerview-by-admin .employer-inputfield select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    background-color: #ffffff;
-    outline: none;
-  }
-  
-  .employerview-by-admin .employer-inputfield input:focus,
-    .employerview-by-admin .employer-inputfield select:focus {
-    outline: none;
-    border: 1px solid #367052;
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-left: 250px;
 }
 
-  .employerview-by-admin .emp-toggle-password-btn {
-    color: #4ba174;;
-    margin-bottom: 15px;
-    cursor: pointer;
-    background-color: #ffffff;
-    outline: none;
-    border: none;
+.employerview-by-admin .employer-inputfield {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.employerview-by-admin .employer-inputfield input{
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+.employerview-by-admin .employer-inputfield select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 102%;
+}
+.employerview-by-admin .employer-inputfield .button {
+  background: #4a9e73;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+  width: 98%;
+  margin-left: 25px;
+}
+
+.employerview-by-admin .employer-inputfield .button:hover {
+  background: #387958;
+}
+
+.employerview-by-admin .error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: -5px;
+}
+
+.employerview-by-admin table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.employerview-by-admin thead {
+  background: #4a9e73;
+  color: #fff;
+}
+
+.employerview-by-admin th,
+.employerview-by-admin td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.employerview-by-admin tbody tr:hover {
+  background: #f1f1f1;
+}
+
+.employerview-by-admin td button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.employerview-by-admin td button:first-child {
+  background: #dc3545;
+  color: #fff;
+  margin-right: 4px;
+}
+
+.employerview-by-admin td button:first-child:hover {
+  background: #dc3545;
+}
+
+.employerview-by-admin td button:last-child {
+  background: #dc3545;
+  color: #fff;
+}
+
+.employerview-by-admin td button:last-child:hover {
+  background: #dc3545;
+}
+.show-password-btn-emp {
+  position: absolute;
+  right: 60px;
+  top: 22%;
+  transform: translateY(-50%);
+  background: none !important;
+  border: none;
+  color: #007bff !important;
+  cursor: pointer;
+  font-size: 14px !important;
+}
+.show-password-btn-emp:hover{
+  text-decoration: underline;
+}
+/* Responsive */
+@media (max-width: 768px) {
+  .employerview-by-admin {
+      padding: 15px;
   }
 
-  .employerview-by-admin .emp-toggle-password-btn:hover {
-    color: #367052;
+  .employerview-by-admin .employer-inputfield {
+      gap: 8px;
   }
-  
-  .employerview-by-admin .employer-table-list {
-    margin-bottom: 30px;
-    overflow-x: auto;
-    background-color: #ffffff;
+
+  .employerview-by-admin table,
+  .employerview-by-admin thead,
+  .employerview-by-admin tbody,
+  .employerview-by-admin th,
+  .employerview-by-admin td,
+  .employerview-by-admin tr {
+      display: block;
   }
-  
-  .employerview-by-admin .employer-table-list table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+
+  .employerview-by-admin thead {
+      display: none;
   }
-  
-  .employerview-by-admin .employer-table-list th,
-  .employerview-by-admin .employer-table-list td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: left;
+
+  .employerview-by-admin tbody tr {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-bottom: 10px;
   }
-  
-  .employerview-by-admin .employer-table-list th {
-    background-color:  #367052;
-    font-weight: 600;
-    color: #333;
+
+  .employerview-by-admin td {
+      border: none;
+      text-align: right;
+      position: relative;
+      padding-left: 50%;
   }
-  
-  .employerview-by-admin .employer-table-list tr {
-    background-color: #ffffff;
+
+  .employerview-by-admin td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 10px;
+      font-weight: bold;
+      text-transform: capitalize;
   }
-  
-  .employerview-by-admin .employer-table-list tr:hover {
-    background-color: #f9f9f9;
-    cursor: pointer;
-  }
-  
-  .employerview-by-admin .selected-row {
-    background-color: #f8f8f8;
-  }
-  
-  .employerview-by-admin .error-message {
-    color: #d32f2f;
-    font-size: 14px;
-    margin-top: -10px;
-    margin-bottom: 15px;
-  }
-  
-  .employerview-by-admin .add-button,
-  .employerview-by-admin .edit-button,
-  .employerview-by-admin .delete-button {
-    display: inline-block;
-    margin-right: 15px;
-  }
-  
-  .employerview-by-admin .add-button button,
-  .employerview-by-admin .edit-button button,
-  .employerview-by-admin .delete-button button {
-    padding: 10px 24px;
-    font-size: 14px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    color: white;
-  }
-  
-  .employerview-by-admin .add-button button {
-    background-color: #367052;
-    color: #333;
-  }
-  
-  .employerview-by-admin .edit-button button {
-    background-color: #2196f3;
-    color: black;
-  }
-  
-  .employerview-by-admin .delete-button button {
-    background-color: #f44336;
-    color: black;
-  }
-  
-  .employerview-by-admin .add-button button:hover {
-    background-color: #2e6247;
-    color: black;
-  }
-  
-  .employerview-by-admin .edit-button button:hover {
-    background-color: #1e88e5;
-  }
-  
-  .employerview-by-admin .delete-button button:hover {
-    background-color: #e53935;
-  }
+}

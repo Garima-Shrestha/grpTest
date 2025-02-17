@@ -98,6 +98,7 @@ export const createTableJob = async () => {
           description TEXT NOT NULL,
           qualifications TEXT NOT NULL,
           transaction VARCHAR(20) ,
+          status VARCHAR(20) NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );`;
       await pool.query(query);

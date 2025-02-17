@@ -35,14 +35,14 @@ const JobPostingForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const token = localStorage.getItem("token");
     if (!token) {
       setFetchError("You are not authenticated. Please log in.");
       navigate("/login");
       return;
     }
-
+  
     try {
       const response = await fetch("http://localhost:3000/api/jobposting/jobreq/add", {
         method: "POST",
@@ -52,12 +52,22 @@ const JobPostingForm = () => {
         },
         body: JSON.stringify(formData),
       });
-
+  
       if (response.ok) {
         const data = await response.json();
         console.log("Job posted successfully", data);
-        setFetchError(null); // Clear any previous errors
-        // navigate("/jobs"); 
+        setFetchError(null);  
+  
+        // Reset form data after a successful submission
+        setFormData({
+          title: "",
+          deadline: "",
+          salary: "",
+          position: "Fresher",
+          description: "",
+          qualifications: "",
+          transaction: "",
+        });
       } else {
         setFetchError("Failed to post the job or Transaction limit exceeded.");
       }
@@ -66,7 +76,8 @@ const JobPostingForm = () => {
       setFetchError("An error occurred. Please try again later.");
     }
   };
-
+  
+  
   return (
       <div className="job-posting-container">
       <h2 className="req-form-title">Post a Job</h2>

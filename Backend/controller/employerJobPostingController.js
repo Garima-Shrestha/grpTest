@@ -1,5 +1,5 @@
 import { createJob } from "../model/employerJobPostingModel.js";
-import {isTransactionValid} from "../model/employerJobPostingModel.js";
+import {isTransactionValid, getJobPosting} from "../model/employerJobPostingModel.js";
 
 export const postJob = async (req, res) => {
     const employerId = req.user.id;      
@@ -18,3 +18,17 @@ export const postJob = async (req, res) => {
         res.status(500).json({ message: "Internal server error." });
     }
     };
+
+    export const fetchJob = async (req, res) => {
+        try {
+          console.log('Received request to fetch jobs');
+          const jobs = await getJobPosting(); // Make sure this is correct and returns data
+          console.log('Fetched jobs:', jobs); // Log fetched jobs
+          res.json({ jobs });
+        } catch (error) {
+          console.error('Error fetching jobs:', error);
+          res.status(500).json({ error: 'Error fetching jobs' });
+        }
+      };
+      
+      

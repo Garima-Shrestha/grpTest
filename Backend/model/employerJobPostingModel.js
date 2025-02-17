@@ -25,3 +25,47 @@ export const isTransactionValid = async(transaction)=>{
 
         return parseInt(result.rows[0].count, 10) < 10; 
 };
+export const getSingleJobPosting = async (id) => {
+    const query = `
+      SELECT 
+        jobs_posting.*,
+        employers.company_name AS employer_name,
+        employers.contact AS employer_contact,
+        employers.email AS employer_email,
+        employers.address AS employer_address,
+        employer_profiles.photo AS employer_profile_picture
+      FROM jobs_posting
+      JOIN employers ON employers.id = jobs_posting.employer_id
+      LEFT JOIN employer_profiles ON employer_profiles.employer_id = employers.id
+      WHERE jobs_posting.id = $1;
+    `;
+    try {
+      const result = await pool.query(query, [id]);
+      return result.rows;
+    } catch (error) {
+      console.error('Error fetching Job Posting with employer details:', error);
+      throw error;
+    }
+  };
+  export const getJobPosting  = async () => {
+    const query = `
+      SELECT 
+        jobs_posting.*,
+        employers.company_name AS employer_name,
+        employers.contact AS employer_contact,
+        employers.email AS employer_email,
+        employers.address AS employer_address,
+        employer_profiles.photo AS employer_profile_picture
+      FROM jobs_posting
+      JOIN employers ON employers.id = jobs_posting.employer_id
+      LEFT JOIN employer_profiles ON employer_profiles.employer_id = employers.id;
+    `;
+    try {
+      const result = await pool.query(query);
+      return result.rows;
+    } catch (error) {
+      console.error('Error fetching all Job Postings with employer details:', error);
+      throw error;
+    }
+  };
+  
