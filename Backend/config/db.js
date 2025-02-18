@@ -118,7 +118,7 @@ export const createEmpProfile = async () => {
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );`;
       await pool.query(query);
-      console.log("Job Posting Table Created");
+      console.log("Employer Profile Table Created");
   } catch (err) {
       console.error("Error creating job table", err);
   }
