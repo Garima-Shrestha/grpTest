@@ -84,10 +84,21 @@ const JobDesc = () => {
           <h3>Deadline</h3>
           <p>{new Date(jobDetails.deadline).toLocaleDateString() || "N/A"}</p> {/* Deadline */}
         </div>
+        <div className="job-section-head">
+          <h3>Salary</h3>
+          <p>Rs.{jobDetails.salary}/month</p> 
+        </div>
       </div>
 
       <div className="job-details">
         <div className="job-section">
+
+        <div className="job-section">
+          <h3>Job Description</h3>
+          <div dangerouslySetInnerHTML={{ __html: jobDetails.description }} /> {/* Render HTML safely */}
+        </div>
+      </div>
+
         <h3>Job Qualifications</h3>
           <ul>
             {jobDetails.qualifications
@@ -103,11 +114,7 @@ const JobDesc = () => {
           </ul>
         </div>
 
-        <div className="job-section">
-          <h3>Job Description</h3>
-          <div dangerouslySetInnerHTML={{ __html: jobDetails.description }} /> {/* Render HTML safely */}
-        </div>
-      </div>
+       
 
       {message && <div className="message">{message}</div>}
 

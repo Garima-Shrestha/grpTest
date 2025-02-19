@@ -115,7 +115,7 @@ const ApplicantDash = () => {
                 ) : (
                   highestPayingJobs.map((job, index) => (
                     <tr key={index}>
-                      <td>{job.title} - ${job.salary}/year</td>
+                      <td>{job.title} - Rs.{job.salary}/month</td>
                     </tr>
                   ))
                 )}
