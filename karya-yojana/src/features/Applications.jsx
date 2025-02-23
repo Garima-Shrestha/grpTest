@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate, useParams } from "react-router-dom"; 
+import axios from "axios";
 import "../css/Applications.css";
 
 const Applications = () => {
@@ -8,15 +9,19 @@ const Applications = () => {
   const navigate = useNavigate(); 
 
   useEffect(() => {
-    const storedJobs = localStorage.getItem("appliedJobs");
-    const userId = localStorage.getItem("userId"); // Get the user ID from local storage
+    const fetchApplications = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await axios.get('http://localhost:3000/api/jobapplication/applications/specific', {
+          headers: { "Authorization": `Bearer ${token}` },
+        });
+        setAppliedJobs(response.data);
+      } catch (error) {
+        console.error('Error fetching applications:', error);
+      }
+    };
 
-    if (storedJobs && userId) { // Ensure userId is available
-      const allJobs = JSON.parse(storedJobs);
-      // Filter jobs by user ID
-      const userJobs = allJobs.filter(job => job.userId === userId); 
-      setAppliedJobs(userJobs); // Set only the jobs that belong to the user
-    }
+    fetchApplications();
   }, []);
 
   // Filtering 
@@ -27,8 +32,7 @@ const Applications = () => {
   );
 
   const handleViewPost = (id) => {
-    // Navigate to the job description page using the job ID
-    navigate(`/jobdesc/${id}`);
+    navigate(`/jobdesc/${id}`);        // Navigate to the job description page using the job ID
   };
 
   return (
@@ -58,10 +62,21 @@ const Applications = () => {
                 <td>{index + 1}</td>
                 <td>{vacancy.title}</td>
                 <td>{vacancy.company}</td>
-                <td>{vacancy.vacancyFor}</td>
-                <td>{vacancy.date}</td>
+                <td>{vacancy.vacancy_for}</td>
+                <td>{new Date(vacancy.application_date).toLocaleDateString()}</td>
+
                 <td>
-                  <button className="view-button" onClick={() => handleViewPost(vacancy.id)}>
+                  {/* <button className="view-button" onClick={() => handleViewPost(vacancy.id)}> */}
+
+                  <button className="view-button" onClick={() => {    //remember
+                    console.log('Vacancy id:', vacancy.id);
+                    console.log('Vacancy:', vacancy);
+                    // handleViewPost(vacancy.id);
+                    console.log('Vacancy job_id:', vacancy.job_id);
+                    handleViewPost(vacancy.job_id);
+                  }}>
+
+
                     <span role="img" aria-label="view">👁️</span>
                   </button>
                 </td>

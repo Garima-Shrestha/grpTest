@@ -124,4 +124,24 @@ export const createEmpProfile = async () => {
   }
 };
 
+
+export const createAppliedJobs = async () => {
+  try {
+      const query = `CREATE TABLE IF NOT EXISTS job_applications (
+          id SERIAL PRIMARY KEY,
+          user_id INT NOT NULL,
+          job_id INT NOT NULL,
+          application_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+          FOREIGN KEY (job_id) REFERENCES jobs_posting(id) ON DELETE CASCADE
+      );`;
+      await pool.query(query);
+      console.log("Job Applications Table Created");
+  } catch (err) {
+      console.error("Error creating job applications table", err);
+  }
+};
+
+
+
 export {pool};

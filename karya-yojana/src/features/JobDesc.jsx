@@ -33,33 +33,24 @@ const JobDesc = () => {
   }
 
 
-  const handleApplyClick = () => {
-    console.log("Applied");
-    const userId = localStorage.getItem("userId"); // Assuming you store the user ID in local storage
-    const existingJobs = JSON.parse(localStorage.getItem("appliedJobs")) || [];
-  
-    // Check if the user has already applied for this job
-    const jobExists = existingJobs.some(job => job.userId === userId && job.id === jobId);
-  
-    if (!jobExists) {
-      // Add the new job to the existing jobs array
-      existingJobs.push({
-        userId: userId, // Store the user ID
-        id: jobId, // Use a unique ID for the job
-        title: jobDetails.title,
-        company: jobDetails.employer_name,
-        vacancyFor: jobDetails.position,
-        date: new Date().toLocaleDateString(), // Use the current date for the application date
-      });
-  
-      // Save the updated jobs array back to local storage
-      localStorage.setItem("appliedJobs", JSON.stringify(existingJobs));
-      setMessage("Application submitted successfully!"); 
-    } else {
-      setMessage("You have already applied for this job.");
+  const handleApplyClick = async () => {
+    const token = localStorage.getItem("token"); // Get the token for authorization
+    try {
+        const response = await axios.post('http://localhost:3000/api/jobapplication/applications/apply', {
+          jobId: jobId 
+        }, {
+          headers: { "Authorization": `Bearer ${token}` },
+        });
+        setMessage(response.data.message);
+        navigate("/applications");
+    } catch (error) {
+        console.error('Error applying for job:', error);
+        if (error.response && error.response.data) {
+            setMessage(error.response.data.message); 
+        } else {
+            setMessage("An error occurred while applying for the job.");
+        }
     }
-  
-    navigate("/applications");
   };
 
 
