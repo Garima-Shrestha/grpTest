@@ -1,110 +1,113 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate  } from "react-router-dom";
+import axios from "axios";
 import "../css/jobdesc.css"; // Assuming you have a CSS file for styling
 
 const JobDesc = () => {
   const { jobId } = useParams(); // Access `jobId` from the URL
   const [jobDetails, setJobDetails] = useState(null);
+  const [message, setMessage] = useState("");
 
-  // (dummy data for now)
+  const navigate = useNavigate(); 
+
   useEffect(() => {
     const fetchJobDetails = async () => {
-      const dummyJobDetails = {
-        id: jobId,
-        name: `Company ${jobId}`,
-        position: "Software Engineer",
-        image: `../assests/brand${jobId}.png`,
-        jobReq: `
-          - 3+ years of experience in software development with a strong understanding of computer science fundamentals.
-          - Proficiency in JavaScript, React, and Node.js, with experience in building scalable web applications.
-          - Hands-on experience with RESTful APIs, microservices, and cloud-based architectures (e.g., AWS, Azure, or GCP).
-          - Familiarity with databases such as PostgreSQL, MongoDB, or MySQL, including schema design and query optimization.
-          - Strong debugging and problem-solving skills with a focus on performance optimization.
-          - Knowledge of version control systems like Git, including branching and pull request workflows.
-          - Experience with Agile methodologies and tools such as JIRA or Trello.
-          - Ability to write clean, maintainable, and testable code, following best practices and coding standards.
-          - Strong communication skills and the ability to collaborate effectively in a cross-functional team.
-          - Passion for learning and adapting to new technologies, with a proactive approach to skill development.
-        `,
-        jobDesc: `
-          We are seeking a talented and motivated Software Engineer to join our dynamic team. As a Software Engineer, you will:
-          
-          - Design, develop, and maintain high-quality software applications that meet business requirements.
-          - Collaborate with product managers, designers, and other engineers to define and implement innovative solutions.
-          - Participate in code reviews to ensure code quality, performance, and adherence to best practices.
-          - Troubleshoot and resolve technical issues, ensuring optimal application performance and user experience.
-          - Contribute to the architecture and design of scalable and maintainable systems.
-          - Stay updated on emerging technologies and industry trends to ensure our applications remain cutting-edge.
-          
-          This role offers the opportunity to work on challenging projects, grow your skills, and make a meaningful impact in a fast-paced and supportive environment.
-        `,
-        jobType: "Full-Time",
-        deadline:"2025-02-26",
-      };
-
-      // Simulate fetching data
-      setTimeout(() => setJobDetails(dummyJobDetails), 500);
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`http://localhost:3000/api/jobposting/jobdesc/${jobId}`, {
+          headers: { "Authorization": `Bearer ${token}` },
+        });
+        setJobDetails(response.data[0]); // Access the first job object in the array
+      } catch (error) {
+        console.error('Error fetching job details:', error);
+      }
     };
-
+  
     fetchJobDetails();
   }, [jobId]);
+
 
   // Show a loading message while data is being fetched
   if (!jobDetails) {
     return <div>Loading...</div>;
   }
 
-  const handleApplyClick = () => {
-    console.log("Applied");
+
+  const handleApplyClick = async () => {
+    const token = localStorage.getItem("token"); // Get the token for authorization
+    try {
+        const response = await axios.post('http://localhost:3000/api/jobapplication/applications/apply', {
+          jobId: jobId 
+        }, {
+          headers: { "Authorization": `Bearer ${token}` },
+        });
+        setMessage(response.data.message);
+        navigate("/applications");
+    } catch (error) {
+        console.error('Error applying for job:', error);
+        if (error.response && error.response.data) {
+            setMessage(error.response.data.message); 
+        } else {
+            setMessage("An error occurred while applying for the job.");
+        }
+    }
   };
+
+
 
   return (
     <div className="job-desc-container">
       <div className="job-header">
         <img
-          src={jobDetails.image}
-          alt={jobDetails.name}
+          src={`http://localhost:3000${jobDetails.employer_profile_picture}`} // Ensure the image URL is correct
+          alt={jobDetails.employer_name}
           className="company-logo"
         />
         <div className="job-header-details">
-          <h2>{jobDetails.name}</h2>
-          <h4>{jobDetails.position}</h4>
+          <h2>{jobDetails.employer_name}</h2> {/* Company Name */}
+          <h4>{jobDetails.title}</h4> {/* Job Title */}
         </div>
         <div className="job-section-head">
           <h3>Job Type</h3>
-          <p>{jobDetails.jobType}</p>
+          <p>{jobDetails.position}</p> {/* Job Type */}
         </div>
         <div className="job-section-head">
           <h3>Deadline</h3>
-          <p>{jobDetails.deadline}</p>
+          <p>{new Date(jobDetails.deadline).toLocaleDateString() || "N/A"}</p> {/* Deadline */}
+        </div>
+        <div className="job-section-head">
+          <h3>Salary</h3>
+          <p>Rs.{jobDetails.salary}/month</p> 
         </div>
       </div>
 
       <div className="job-details">
         <div className="job-section">
-          <h3>Job Requirements</h3>
-          <ul>
-            {jobDetails.jobReq
-              .split("\n")
-              .filter((req) => req.trim() !== "")
-              .map((req, index) => (
-                <li key={index}>{req.trim().replace(/^-\s*/, "")}</li>
-              ))}
-          </ul>
-        </div>
 
         <div className="job-section">
           <h3>Job Description</h3>
-          <ul>
-            {jobDetails.jobDesc
-              .split("\n")
-              .filter((desc) => desc.trim() !== "")
-              .map((desc, index) => (
-                <li key={index}>{desc.trim().replace(/^-\s*/, "")}</li>
-              ))}
-          </ul>
+          <div dangerouslySetInnerHTML={{ __html: jobDetails.description }} /> {/* Render HTML safely */}
         </div>
       </div>
+
+        <h3>Job Qualifications</h3>
+          <ul>
+            {jobDetails.qualifications
+              ? jobDetails.qualifications
+                  .replace(/<\/?ul>/g, "") // Remove <ul> tags
+                  .replace(/<\/?li>/g, "\n") // Replace <li> tags with new lines
+                  .split("\n")
+                  .filter(req => req.trim() !== "")
+                  .map((req, index) => (
+                    <li key={index}>{req.trim()}</li>
+                  ))
+              : <li>No job qualifications available.</li>}
+          </ul>
+        </div>
+
+       
+
+      {message && <div className="message">{message}</div>}
 
       <div className="apply-button-container">
         <button className="apply-button" onClick={handleApplyClick}>

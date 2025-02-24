@@ -1,35 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom"; // Import Link from React Router
+import axios from "axios";
 import "../css/DashboardApp.css";
 import FAQ from "./FAQ";
 
 const ApplicantDash = () => {
-  // Sample data for jobs with profile pictures
-  const jobs = [
-    { name: "Company A", position: "Sales Representative", image: "../assests/brand1.png" },
-    { name: "Company B", position: "Software Engineer", image: "../assests/brand2.png" },
-    { name: "Company C", position: "Graphic Designer", image: "../assests/brand3.png" },
-    { name: "Company D", position: "Marketing Manager", image: "../assests/brand4.png" },
-    { name: "Company E", position: "Product Manager", image: "../assests/brand5.png" },
-    { name: "Company F", position: "UX Designer", image: "../assests/brand6.png" },
-    { name: "Company G", position: "UX Designer", image: "../assests/brand7.png" },
-    { name: "Company H", position: "UX Designer", image: "../assests/brand8.png" },
-    { name: "Company I", position: "UX Designer", image: "../assests/brand9.png" },
-    { name: "Company J", position: "UX Designer", image: "../assests/brand10.png" },
-  ];
-
-  // State to manage the search term
+  const [jobs, setJobs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Highest paying job and top employers
-  const highestPayingJob = "Software Engineer - $120,000/year";
-  const topEmployers = ["Company A", "Company B", "Company C", "Company D"];
+  
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const fetchJobs = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/api/jobposting/jobs', {
+          headers: { "Authorization": `Bearer ${token}` },
+        });
+        setJobs(response.data.jobs); 
+      } catch (error) {
+        console.error('Error fetching jobs:', error);
+      }
+    };
 
-  // Filtering jobs based on the search term
-  const filteredJobs = jobs.filter((job) =>
-    job.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    job.position.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+    fetchJobs();
+  }, []);
+
+  
+  // Filtering jobs based on the search term and status
+  const filteredJobs = jobs.filter((job) => {
+    // Check if job is defined and has the required properties
+    if (job && job.status === 'approved') {
+      const jobName = job.title || ""; 
+      const jobPosition = job.position || ""; 
+      return (
+        jobName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        jobPosition.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    return false; 
+  });
+
+
+  // Get highest paying jobs
+  const highestPayingJobs = jobs
+    .filter(job => job.status === 'approved' && job.salary) // Ensure job is approved and has a salary
+    .sort((a, b) => b.salary - a.salary) // Sort by salary descending
+    .slice(0, 5); // Get top 5 highest paying jobs
+
+  // Get top employers
+  const employerCount = {};
+  jobs.forEach(job => {
+    if (job.status === 'approved') {
+      employerCount[job.employer_name] = (employerCount[job.employer_name] || 0) + 1;
+    }
+  });
+  const topEmployers = Object.entries(employerCount)
+    .sort(([, a], [, b]) => b - a) // Sort by number of job postings
+    .slice(0, 5) // Get top 5 employers
+    .map(([employer]) => employer); // Extract employer names
+
 
   return (
     <div className="dashboard">
@@ -50,19 +79,25 @@ const ApplicantDash = () => {
             <h3>Job Listings</h3>
             <div className="job-listings-scrollable">
               <div className="job-listings">
-                {filteredJobs.map((job, index) => (
-                  <Link key={index} to="/jobdesc" className="job-cell"> {/* Add Link here */}
-                    <img
-                      src={job.image}
-                      alt={job.name}
-                      className="job-image"
-                    />
-                    <div className="job-details1">
-                      <span className="company-name">{job.name}</span><br/>
-                      <span className="position">{job.position}</span>
-                    </div>
-                  </Link>
-                ))}
+              {filteredJobs.length === 0 ? (
+                  <p>No job listings available.</p>
+                ) : (
+                  filteredJobs.map((job, index) => (
+                    <Link key={index} to={`/jobdesc/${job.id}`} className="job-cell">
+                      <img 
+                        src={`http://localhost:3000${job.employer_profile_picture}`} 
+                        alt="company-img" 
+                        className="job-image"
+                      />
+                      <div className="job-details1">
+                      <span className="company-name">{job.employer_name}</span><br /> 
+                      <span className="job-title">{job.title}</span><br /> 
+                      <span className="position">{job.position}</span><br/>
+                      <span className="deadline">{new Date(job.deadline).toLocaleDateString() || "N/A"}</span> 
+                      </div>
+                    </Link>
+                  ))
+                )}
               </div>
             </div>
           </div>
@@ -70,13 +105,20 @@ const ApplicantDash = () => {
 
         {/* Right Section */}
         <div className="right-section">
+          {/* Highest Paying Jobs */}
           <div className="table-container">
-            <h3>Highest Paying Job</h3>
+            <h3>Highest Paying Jobs</h3>
             <table>
               <tbody>
-                <tr>
-                  <td>{highestPayingJob}</td>
-                </tr>
+                {highestPayingJobs.length === 0 ? (
+                  <tr><td>No highest paying jobs available.</td></tr>
+                ) : (
+                  highestPayingJobs.map((job, index) => (
+                    <tr key={index}>
+                      <td>{job.title} - Rs.{job.salary}/month</td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
@@ -86,11 +128,15 @@ const ApplicantDash = () => {
             <h3>Top Employers</h3>
             <table>
               <tbody>
-                {topEmployers.map((employer, index) => (
-                  <tr key={index}>
-                    <td>{employer}</td>
-                  </tr>
-                ))}
+                {topEmployers.length === 0 ? (
+                  <tr><td>No top employers available.</td></tr>
+                ) : (
+                  topEmployers.map((employer, index) => (
+                    <tr key={index}>
+                      <td>{employer}</td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>

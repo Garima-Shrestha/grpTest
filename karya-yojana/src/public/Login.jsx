@@ -31,6 +31,7 @@ const LoginApplicant = ({setToken}) => {
                 setToken(data.token);
                 localStorage.setItem("token", data.token); // Ensure token is stored
 
+                localStorage.setItem("userId", data.user.id); 
                 localStorage.setItem("user", JSON.stringify({ isAuthenticated: true, role: data.user.role }));      // role: data.user.role => Storing user role received from backend
 
 

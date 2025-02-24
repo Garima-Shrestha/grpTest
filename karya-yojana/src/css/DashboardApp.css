@@ -125,12 +125,28 @@
 
 .company-name {
     font-weight: bold; /* Make company name bold */
-    margin-bottom: 5px; /* Space between company name and position */
+    margin-bottom: 5px; /* Space between company name and job title */
+    font-size: 16px; /* Adjust font size as needed */
+    color: #111111; /* Dark color for better visibility */
+}
+
+.job-title {
+    font-weight: 600; /* Slightly bolder than normal text */
+    margin-bottom: 5px; /* Space between job title and position */
+    font-size: 14px; /* Adjust font size as needed */
+    color: #353535; /* Lighter color for job title */
 }
 
 .position {
     font-size: 14px; /* Smaller font for position */
-    color: #555; /* Lighter color for position */
+    color: #4e4e4e; /* Lighter color for position */
+    margin-bottom: 5px; 
+}
+
+.deadline {
+    font-size: 12px; /* Smaller font for deadline */
+    color: #605f5f; /* Lighter color for deadline */
+    margin-top: 5px; /* Space above the deadline */
 }
 
 .job-cell:hover {
