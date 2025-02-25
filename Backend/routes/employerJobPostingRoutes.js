@@ -1,5 +1,5 @@
 import express from 'express';
-import { postJob,fetchJob,fetchSingleJob } from '../controller/employerJobPostingController.js';
+import { postJob,fetchJob,fetchSingleJob,fetchApprovedJobCount,fetchEmployerJobRequests } from '../controller/employerJobPostingController.js';
 import authenticateToken from '../middleware/authenticationMiddleware.js';
 
 const router = express.Router();
@@ -12,6 +12,7 @@ router.get('/jobs', authenticateToken, (req, res) => {
   });
 
 router.get('/jobdesc/:jobId', authenticateToken, fetchSingleJob);  //Job description
-
+router.get('/approved-job-count', authenticateToken, fetchApprovedJobCount);
+router.get('/employer/jobs', authenticateToken, fetchEmployerJobRequests);  // Add this route
 
 export default router;

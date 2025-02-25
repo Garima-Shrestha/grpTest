@@ -95,6 +95,7 @@ const App = () => {
             <Route path="/jobreq" element={<EmpFeatures />} />
             <Route path="/pdf" element={<EmpFeatures />} />
             <Route path="/empprofile" element={<EmpFeatures />} />
+            <Route path="/myads" element={<EmpFeatures />} />
           </Route>
 
           {/* Admin Route */}

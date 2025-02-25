@@ -69,7 +69,21 @@ export const getSingleJobPosting = async (id) => {
     }
   };
   
-
+  export const countApprovedJobs = async (employerId) => {
+    const query = `
+        SELECT COUNT(*) AS count
+        FROM jobs_posting
+        JOIN employers ON employers.id = jobs_posting.employer_id
+        WHERE employers.id = $1 AND status = 'approved';
+    `;
+    try {
+        const result = await pool.query(query, [employerId]);
+        return parseInt(result.rows[0].count, 10);
+    } catch (error) {
+        console.error('Error counting approved jobs:', error);
+        throw error;
+    }
+};
 
 
   // Job Description page
@@ -99,4 +113,27 @@ export const getSingleJobPosting = async (id) => {
       console.error('Error fetching Job Description with employer details:', error);
       throw error;
     }
+};
+
+export const getJobPostingByEmployer = async (employerId) => {
+  const query = `
+    SELECT 
+      jobs_posting.*,
+      employers.company_name AS employer_name,
+      employers.contact AS employer_contact,
+      employers.email AS employer_email,
+      employers.address AS employer_address,
+      employer_profiles.photo AS employer_profile_picture
+    FROM jobs_posting
+    JOIN employers ON employers.id = jobs_posting.employer_id
+    LEFT JOIN employer_profiles ON employer_profiles.employer_id = employers.id
+    WHERE employers.id = $1;  
+  `;
+  try {
+    const result = await pool.query(query, [employerId]);
+    return result.rows;
+  } catch (error) {
+    console.error('Error fetching job postings by employer:', error);
+    throw error;
+  }
 };

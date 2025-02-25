@@ -34,8 +34,8 @@ const EmpHeader = () => {
           <li className={isActive("/jobreq")}>
             <Link to="/jobreq">Post Request</Link>
           </li>
-          <li className={isActive("/requests")}>
-            <Link to="/applications">My Ads</Link>
+          <li className={isActive("/myads")}>
+            <Link to="/myads">My Ads</Link>
           </li>
         </ul>
       </div>
@@ -45,7 +45,6 @@ const EmpHeader = () => {
           <div className="dropdown-menu">
             <ul>
               <li onClick={() => window.location.href = "/empprofile"}>Profile</li>
-              <li onClick={() => window.location.href = "/empManageAcc"}>Manage Account</li>
               <li onClick={handleLogout}>Logout</li>
             </ul>
           </div>

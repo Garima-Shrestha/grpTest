@@ -1,0 +1,91 @@
+/* EmployerJobRequests.css */
+
+.employer-job-requests-myads {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    margin-bottom: 25%;
+  }
+  
+  .header-myads {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .error-message-myads {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .no-jobs-myads {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #555;
+  }
+  
+  .jobs-table-myads {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .table-header-myads {
+    background-color: #f4f4f4;
+  }
+  
+  .table-header-cell-myads {
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .job-row-myads {
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .job-title-myads,
+  .job-deadline-myads,
+  .job-status-myads {
+    padding: 10px;
+  }
+  
+  .job-title-myads {
+    color: #333;
+  }
+  
+  .job-deadline-myads {
+    color: #888;
+  }
+  
+  .job-status-myads {
+    font-weight: bold;
+  }
+  
+  .job-row-myads:hover {
+    background-color: #f9f9f9;
+  }
+  
+  /* Job Status Colors */
+  .job-status-approved-myads {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .job-status-rejected-myads {
+    color: red;
+    font-weight: bold;
+  }
+  
+  .job-status-pending-myads {
+    color: rgb(255, 174, 0);
+    font-weight: bold;
+  }
+  .para-myads{
+    font-size: 15px;
+    color: green;
+  }  

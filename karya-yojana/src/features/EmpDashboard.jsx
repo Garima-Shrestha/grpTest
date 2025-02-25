@@ -1,15 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios"; // Import Axios
 import "../css/EmpDashboard.css";
 import FAQs from "./EmpFAQs.jsx";
 
 const EmpDashboard = () => {
     const [selectedMethod, setSelectedMethod] = useState("esewa");
+    const [employerProfile, setEmployerProfile] = useState(null); // State to hold employer profile data
+    const [approvedJobCount, setApprovedJobCount] = useState(0); // State to hold approved job count
+    const [loading, setLoading] = useState(true); // State to manage loading state
+    const [error, setError] = useState(null); // State to manage error
 
     // Paths to the QR code images
     const paymentLinks = {
-        esewa: "../assests/esewa.png", 
-        khalti: "../assests/khalti.png" 
+        esewa: "/assests/esewa.png", 
+        khalti: "/assests/khalti.png" 
     };
+
+    // Function to fetch employer profile
+    const fetchEmployerProfile = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/api/employer/profile', {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}` 
+                }
+            });
+            setEmployerProfile(response.data.profile);
+        } catch (err) {
+            setError(err.response ? err.response.data.error : "An error occurred");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Function to fetch approved job count
+    const fetchApprovedJobCount = async () => {
+        const url = 'http://localhost:3000/api/jobposting/approved-job-count';
+        console.log("Fetching from URL:", url);
+        try {
+            const response = await axios.get(url, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            setApprovedJobCount(response.data.approvedJobCount);
+        } catch (err) {
+            console.error("Error fetching approved job count:", err);
+        }
+    };
+
+    // useEffect to fetch employer profile and approved job count on component mount
+    useEffect(() => {
+        fetchEmployerProfile();
+        fetchApprovedJobCount();
+    }, []);
 
     return (
         <>
@@ -38,15 +81,26 @@ const EmpDashboard = () => {
                 </div>
                 <div className="middle-section">
                     <div className="info-box">
-                        <h3>Jobs Posted</h3>
-                        <p>5 Jobs</p>
+                        <h3>Approved Jobs</h3>
+                        <p>{approvedJobCount} Approved Jobs</p>
                     </div>
 
                     <div className="info-box">
                         <h3>Your Profile</h3>
-                        <p><strong>Name:</strong> KaryaYojana</p>
-                        <p><strong>Email:</strong> karya@example.com</p>
-                        <p><strong>Company:</strong> Job Portal</p>
+                        {loading ? (
+                            <p>Loading...</p>
+                        ) : error ? (
+                            <p>{error}</p>
+                        ) : (
+                            employerProfile && (
+                                <>
+                                <img src={`http://localhost:3000${employerProfile.photo}`} alt="Company Logo" className="profile-dash-board" />
+                                    <p><strong>Name:</strong> {employerProfile.company_name}</p>
+                                    <p><strong>Email:</strong> {employerProfile.email}</p>
+                                    <p><strong>Company:</strong> {employerProfile.company_type}</p>
+                                </>
+                            )
+                        )}
                     </div>
                 </div>
                 <div className="right-section">
