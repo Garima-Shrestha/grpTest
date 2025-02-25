@@ -142,6 +142,19 @@ export const createAppliedJobs = async () => {
   }
 };
 
-
+export const createNotice = async () => {
+  try {
+    const query = `CREATE TABLE IF NOT EXISTS notices (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );`
+    await pool.query(query);
+    console.log("Notice Table Created");
+  } catch (err) {
+    console.error("Error NOTICE table", err);
+}
+};
 
 export {pool};

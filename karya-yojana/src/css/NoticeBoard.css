@@ -1,0 +1,125 @@
+.container-notice {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .heading-notice {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .content-wrapper-notice {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  
+  .form-notice {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .input-notice,
+  .textarea-notice {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .textarea-notice {
+    height: 100px;
+    resize: none;
+  }
+  
+  .button-notice {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .button-notice:hover {
+    background: #0056b3;
+  }
+  
+  .notices-container-notice {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .card-notice {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .content-notice {
+    flex-grow: 1;
+  }
+  
+  .title-notice {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .description-notice {
+    margin: 5px 0 0;
+    color: #666;
+  }
+  
+  .actions-notice {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .edit-notice,
+  .delete-notice {
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .edit-notice {
+    background: #ffc107;
+    color: #333;
+  }
+  
+  .edit-notice:hover {
+    background: #e0a800;
+  }
+  
+  .delete-notice {
+    background: #dc3545;
+    color: white;
+  }
+  
+  .delete-notice:hover {
+    background: #c82333;
+  }
+  
