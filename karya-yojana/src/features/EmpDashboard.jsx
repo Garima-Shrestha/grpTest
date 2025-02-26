@@ -7,7 +7,7 @@ const EmpDashboard = () => {
     const [selectedMethod, setSelectedMethod] = useState("esewa");
     const [employerProfile, setEmployerProfile] = useState(null);
     const [approvedJobCount, setApprovedJobCount] = useState(0);
-    const [latestNotice, setLatestNotice] = useState(null); // State for latest notice
+    const [notices, setNotices] = useState([]); 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -53,9 +53,9 @@ const EmpDashboard = () => {
             });
 
             if (response.data.length > 0) {
-                setLatestNotice(response.data[0]); // Only store the latest notice
+                setNotices(response.data); // Only store the latest notice
             } else {
-                setLatestNotice(null);
+                setNotices(null);
             }
         } catch (err) {
             console.error("Error fetching latest notice:", err);
@@ -112,11 +112,17 @@ const EmpDashboard = () => {
                 </div>
                     <div className="notice-box">
                         <h3>Notice</h3>
-                        {latestNotice ? (
-                            <p><strong>{latestNotice.title}:</strong> <br/>{latestNotice.description}</p>
-                        ) : (
-                            <p>No new notices</p>
-                        )}
+                        {notices.length > 0 ? (
+                        <ul>
+                            {notices.map((notice) => (
+                                <li key={notice.id}>
+                                    <strong>{notice.title}:</strong> <br/>{notice.description}
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>No new notices</p>
+                    )}
                 </div>
             </div>
         </div>
