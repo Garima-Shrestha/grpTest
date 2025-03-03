@@ -9,7 +9,6 @@ dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
 import { getEmployerById, updateEmployerById, deleteEmployerById } from '../model/employerAuthModel.js';
 import { getEmployers, addEmployersByAdmin, updateEmployerByAdmin, deleteEmployerByAdmin, countEmployers } from '../model/employerAuthModel.js';     //Admin
-import { getEmployers, addEmployersByAdmin, updateEmployerByAdmin, deleteEmployerByAdmin } from '../model/employerAuthModel.js'; // Admin
 
 // Fetch Employer Profile
 export const getEmployerProfile = async (req, res) => {

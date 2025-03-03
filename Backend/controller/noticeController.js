@@ -1,11 +1,4 @@
 import {createNotice,updateNotice,getNoticeById,getAllNotices,deleteNotice,countNotices} from '../model/noticeModel.js';
-import {
-  createNotice,
-  updateNotice,
-  getNoticeById,
-  getAllNotices,
-  deleteNotice,
-} from '../model/noticeModel.js';
 import xss from 'xss';
 import validator from 'validator';
 
