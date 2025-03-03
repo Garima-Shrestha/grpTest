@@ -2,6 +2,7 @@ import request from 'supertest';
 import express from 'express';
 import xss from 'xss';
 import validator from 'validator';
+import {pool} from '../config/db.js';
 import {
   createNotices,
   getAllNotice,
@@ -69,4 +70,7 @@ describe('Notice Controller Security Tests', () => {
     expect(response.status).toBe(404);
     expect(response.body).toEqual({ message: "Route Not Found" });
   });
+});
+afterAll(async () => {
+  await pool.end();
 });

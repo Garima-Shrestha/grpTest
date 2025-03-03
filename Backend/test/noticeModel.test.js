@@ -88,3 +88,6 @@ describe('Notice Model', () => {
     });
   });
 });
+afterAll(async () => {
+  await pool.end();
+});

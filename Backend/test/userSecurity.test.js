@@ -3,6 +3,7 @@ import app from "../index.js"; // Ensure this is your Express app instance
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
+import {pool} from '../config/db.js';
 import {
   createUser ,
   findEmail,
@@ -67,4 +68,7 @@ describe("Authentication Controller Tests", () => {
     expect(response.status).toBe(404);
     expect(response.body).toHaveProperty("error", "Route not found");
   });
+});
+afterAll(async () => {
+  await pool.end();
 });
