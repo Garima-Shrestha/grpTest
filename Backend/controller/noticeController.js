@@ -1,9 +1,37 @@
 import {createNotice,updateNotice,getNoticeById,getAllNotices,deleteNotice,countNotices} from '../model/noticeModel.js';
+import {
+  createNotice,
+  updateNotice,
+  getNoticeById,
+  getAllNotices,
+  deleteNotice,
+} from '../model/noticeModel.js';
+import xss from 'xss';
+import validator from 'validator';
+
 // Create a new notice
 export const createNotices = async (req, res) => {
   try {
     const { title, description } = req.body;
-    const notice = await createNotice(title, description);
+
+    // Validate input
+    if (!title || !description) {
+      return res.status(400).json({ message: "Title and description are required." });
+    }
+
+    if (!validator.isLength(title, { min: 1, max: 255 })) {
+      return res.status(400).json({ message: "Title must be between 1 and 255 characters." });
+    }
+
+    if (!validator.isLength(description, { min: 1 })) {
+      return res.status(400).json({ message: "Description must not be empty." });
+    }
+
+    // Sanitize input
+    const sanitizedTitle = xss(title);
+    const sanitizedDescription = xss(description);
+
+    const notice = await createNotice(sanitizedTitle, sanitizedDescription);
     res.status(201).json(notice);
   } catch (error) {
     res.status(500).json({ message: "Error creating notice", error });
@@ -35,7 +63,25 @@ export const getNoticeId = async (req, res) => {
 export const updateNotices = async (req, res) => {
   try {
     const { title, description } = req.body;
-    const notice = await updateNotice(req.params.id, title, description);
+
+    // Validate input
+    if (!title || !description) {
+      return res.status(400).json({ message: "Title and description are required." });
+    }
+
+    if (!validator.isLength(title, { min: 1, max: 255 })) {
+      return res.status(400).json({ message: "Title must be between 1 and 255 characters." });
+    }
+
+    if (!validator.isLength(description, { min: 1 })) {
+      return res.status(400).json({ message: "Description must not be empty." });
+    }
+
+    // Sanitize input
+    const sanitizedTitle = xss(title);
+    const sanitizedDescription = xss(description);
+
+    const notice = await updateNotice(req.params.id, sanitizedTitle, sanitizedDescription);
     if (!notice) return res.status(404).json({ message: "Notice not found" });
     res.status(200).json(notice);
   } catch (error) {

@@ -18,7 +18,7 @@ export const getAllNotices = async () => {
 
 export const getNoticeById = async (id) => {
   const result = await pool.query("SELECT * FROM notices WHERE id = $1", [id]);
-  return result.rows[0];
+  return result.rows.length > 0 ? result.rows[0] : null;
 };
 
 
@@ -27,7 +27,7 @@ export const updateNotice = async (id, title, description) => {
     "UPDATE notices SET title = $1, description = $2 WHERE id = $3 RETURNING *",
     [title, description, id]
   );
-  return result.rows[0];
+  return result.rows.length > 0 ? result.rows[0] : null;
 };
 
 
