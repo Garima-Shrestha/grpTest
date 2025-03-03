@@ -8,11 +8,8 @@ import validator from 'validator';
 dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
 import { getEmployerById, updateEmployerById, deleteEmployerById } from '../model/employerAuthModel.js';
-<<<<<<< HEAD
 import { getEmployers, addEmployersByAdmin, updateEmployerByAdmin, deleteEmployerByAdmin, countEmployers } from '../model/employerAuthModel.js';     //Admin
-=======
 import { getEmployers, addEmployersByAdmin, updateEmployerByAdmin, deleteEmployerByAdmin } from '../model/employerAuthModel.js'; // Admin
->>>>>>> e8bd8c907e1f1798e2d8d664886a72b4a403fc87
 
 // Fetch Employer Profile
 export const getEmployerProfile = async (req, res) => {
