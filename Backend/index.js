@@ -11,14 +11,14 @@ import EmployerJobPostingRoute from './routes/employerJobPostingRoutes.js';
 import JobStatus from './routes/adminRoute.js';
 import AdminNotice from './routes/noticeRoute.js';
 import ApplicantJobApplied from './routes/applicantJobAppliedRoutes.js';
+import helmet from 'helmet';
+import xssClean from 'xss-clean';
 import path from 'path';  // Import path to handle static files
 import { fileURLToPath } from 'url';  // Import to use fileURLToPath
 import { dirname } from 'path';  // Import to use dirname
 
 dotenv.config();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-dotenv.config();
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 
 
@@ -38,7 +38,8 @@ app.use('/uploads', express.static(uploadsPath));
 //Middlewares
 app.use(cors());
 app.use(bodyParser.json());
-
+app.use(helmet());
+app.use(xssClean());
 
 // Routes
 app.use('/api/auth', AuthenticationRoute); 
@@ -49,5 +50,9 @@ app.use('/api/jobposting', EmployerJobPostingRoute);
 app.use('/api', JobStatus);
 app.use('/api/jobapplication', ApplicantJobApplied);
 app.use('/api/Notices', AdminNotice);
+
+app.use((req, res, next) => {
+    res.status(404).json({ error: 'Route not found' });
+  });
 
 export default app;
