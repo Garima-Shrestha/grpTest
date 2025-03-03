@@ -2,7 +2,7 @@ import express from 'express';
 import { employerRegister, employerLogin ,getEmployerProfile, updateEmployerProfile, deleteEmployerProfile } from '../controller/employerAuthController.js';
 import upload from "../middleware/upload.js";
 import authenticateToken from '../middleware/authenticationMiddleware.js'; 
-import { fetchEmployerInfo, addEmployer, updateEmployer, deleteEmployer } from '../controller/employerAuthController.js';
+import { fetchEmployerInfo, addEmployer, updateEmployer, deleteEmployer, fetchTotalEmployers } from '../controller/employerAuthController.js';
 
 const router = express.Router();
 
@@ -19,6 +19,7 @@ router.get('/empview', authenticateToken, fetchEmployerInfo);
 router.post('/empview/add', authenticateToken, addEmployer);
 router.put('/empview/update/:id', authenticateToken, updateEmployer); 
 router.delete('/empview/:id', authenticateToken, deleteEmployer);
+router.get('/total-employers', authenticateToken, fetchTotalEmployers);
 
 
 export default router;

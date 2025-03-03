@@ -35,3 +35,10 @@ export const deleteNotice = async (id) => {
   await pool.query("DELETE FROM notices WHERE id = $1", [id]);
 };
 
+
+
+// Admin ko dashboard ma total number of notice dekhauna ko lagi
+export const countNotices = async () => {
+  const result = await pool.query("SELECT COUNT(*) FROM notices");
+  return parseInt(result.rows[0].count, 10);
+};

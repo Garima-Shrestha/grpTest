@@ -1,5 +1,5 @@
 import { createJob } from "../model/employerJobPostingModel.js";
-import {isTransactionValid, getJobPosting, getSingleJobPosting} from "../model/employerJobPostingModel.js";
+import {isTransactionValid, getJobPosting, getSingleJobPosting, countPendingJobs} from "../model/employerJobPostingModel.js";
 
 export const postJob = async (req, res) => {
     const employerId = req.user.id;      
@@ -85,3 +85,14 @@ export const fetchEmployerJobRequests = async (req, res) => {
     }
   };
   
+
+  // Admin dashboard ma total number of pending jobs
+export const fetchPendingJobCount = async (req, res) => {
+  try {
+      const count = await countPendingJobs(); 
+      res.json({ pendingJobCount: count });
+  } catch (error) {
+      console.error('Error fetching pending job count:', error);
+      res.status(500).json({ error: 'Error fetching pending job count' });
+  }
+};

@@ -151,3 +151,16 @@ export const deleteEmployerByAdmin = async (id) => {
       throw error;  
   }
 };
+
+
+
+export const countEmployers = async () => {
+  const query = 'SELECT COUNT(*) AS count FROM employers';
+  try {
+    const result = await pool.query(query);
+    return parseInt(result.rows[0].count, 10);
+  } catch (error) {
+    console.error('Error counting employers:', error);
+    throw error;
+  }
+};

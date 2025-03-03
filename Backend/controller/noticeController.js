@@ -1,4 +1,4 @@
-import {createNotice,updateNotice,getNoticeById,getAllNotices,deleteNotice} from '../model/noticeModel.js';
+import {createNotice,updateNotice,getNoticeById,getAllNotices,deleteNotice,countNotices} from '../model/noticeModel.js';
 // Create a new notice
 export const createNotices = async (req, res) => {
   try {
@@ -50,5 +50,31 @@ export const deleteNotices = async (req, res) => {
     res.status(204).send();
   } catch (error) {
     res.status(500).json({ message: "Error deleting notice", error });
+  }
+};
+
+
+// Admin ko dashboard ma total number of notice dekhauna ko lagi
+// export const getTotalNotices = async (req, res) => {
+//   try {
+//     const count = await countNotices();
+//     res.json({ totalNotices: count });
+//   } catch (error) {
+//     res.status(500).json({ message: "Error counting notices", error });
+//   }
+// };
+export const getTotalNotices = async (req, res) => {
+  try {
+    console.log('Attempting to count notices...');
+    const count = await countNotices();
+    console.log(`Found ${count} notices`);
+    res.json({ totalNotices: count });
+  } catch (error) {
+    console.error('Notice count error:', error.stack);
+    res.status(500).json({ 
+      message: "Error counting notices",
+      error: error.message,
+      detail: error.stack
+    });
   }
 };

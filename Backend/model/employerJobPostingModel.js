@@ -137,3 +137,20 @@ export const getJobPostingByEmployer = async (employerId) => {
     throw error;
   }
 };
+
+
+// Admin dashboard ma total number of pending jobs
+export const countPendingJobs = async () => { 
+  const query = `
+      SELECT COUNT(*) AS count
+      FROM jobs_posting
+      WHERE status = 'pending';  
+  `;
+  try {
+      const result = await pool.query(query);
+      return parseInt(result.rows[0].count, 10);
+  } catch (error) {
+      console.error('Error counting pending jobs:', error);
+      throw error;
+  }
+};

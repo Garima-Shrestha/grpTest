@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
 import { getEmployerById, updateEmployerById, deleteEmployerById } from '../model/employerAuthModel.js';
-import { getEmployers, addEmployersByAdmin, updateEmployerByAdmin, deleteEmployerByAdmin } from '../model/employerAuthModel.js';     //Admin
+import { getEmployers, addEmployersByAdmin, updateEmployerByAdmin, deleteEmployerByAdmin, countEmployers } from '../model/employerAuthModel.js';     //Admin
 
 // Fetch Employer Profile
 export const getEmployerProfile = async (req, res) => {
@@ -297,5 +297,17 @@ export const deleteEmployer= async (req, res) => {
       res.status(200).json({ message: "Employer deleted successfully" });
   } catch (error) {
       res.status(500).json({ error: "Server error", details: error.message });
+  }
+};
+
+
+// Total number of employee for admin dashboard
+export const fetchTotalEmployers = async (req, res) => {
+  try {
+    const count = await countEmployers();
+    res.json({ totalEmployers: count });
+  } catch (error) {
+    console.error('Error fetching total employers:', error);
+    res.status(500).json({ error: 'Error fetching total employers' });
   }
 };

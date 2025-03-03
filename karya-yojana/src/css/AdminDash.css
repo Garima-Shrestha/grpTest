@@ -1,19 +1,150 @@
+/* Dashboard Container */
+.dashboard-container {
+  display: flex;
+  flex-direction: column; /* Updated flex-direction */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  gap: 20px; /* Updated gap */
+  padding: 20px;
+}
+
+/* Dashboard Card */
+.dashboard-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #f0f0f0;
+}
+
+.dashboard-card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Card Content Layout */
+.card-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Card Icon Container */
+.card-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  background-color: #f7f7f7;
+}
+
+/* Card Icon */
+.card-icon {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.5px;
+  color: #555555;
+}
+
+/* Card Info */
+.card-info {
+  flex: 1;
+}
+
+/* Card Title */
+.card-title {
+  font-size: 14px;
+  color: #777777;
+  margin: 0 0 8px 0;
+  font-weight: 500;
+}
+
+/* Card Value */
+.card-value {
+  font-size: 26px;
+  font-weight: 600;
+  margin: 0;
+  color: #333333;
+}
+
+/* Remove color variants and use a single style for all cards */
+.dashboard-card .card-icon-container {
+  background-color: #f7f7f7;
+}
+
+.dashboard-card .card-icon {
+  color: #555555;
+}
+
+/* New card style */
 .card {
-    background-color: #f4f4f4;
-    border-radius: 8px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  padding: 20px;
+  width: 200px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-left: 160px;
+}
+
+.card h3 {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+.card p {
+  font-size: 24px;
+  font-weight: bold;
+  color: #222;
+  margin: 0;
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+  .dashboard-container {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    padding: 16px;
+    padding-left: 50px; /* Reduced padding for smaller screens */
+  }
+
+  .dashboard-card {
     padding: 20px;
-    width: 200px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-left: 50%;
   }
-  
-  .card h3 {
-    margin-bottom: 10px;
+
+  .card-icon-container {
+    width: 48px;
+    height: 48px;
   }
-  
-  .card p {
+
+  .card-icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .card-value {
     font-size: 24px;
-    font-weight: bold;
   }
-  
+}
+
+@media screen and (max-width: 900px) {
+  /* Added 900px media query */
+  .dashboard-container {
+    flex-direction: column; /* Changed to column for better responsiveness */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .dashboard-container {
+    flex-direction: column; /* Changed to column for better responsiveness */
+    padding-left: 20px; /* Further reduced padding for mobile */
+  }
+  .card {
+    width: 180px; /* Slightly smaller on mobile */
+  }
+}
