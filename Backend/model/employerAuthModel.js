@@ -154,6 +154,7 @@ export const deleteEmployerByAdmin = async (id) => {
 
 
 
+// Total number of employee for admin dashboard
 export const countEmployers = async () => {
   const query = 'SELECT COUNT(*) AS count FROM employers';
   try {
